@@ -3,6 +3,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
+using AutoMapper;
+using Autofac;
+using Marketplace.Helpers;
 
 namespace Marketplace
 {
@@ -15,11 +18,15 @@ namespace Marketplace
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-    
+
+            var config = AutoMapperConfig.ConfigureContainer(AutoMapperConfigHelper.AddWebMappings());
+            builder.Register((x) => config.CreateMapper()).As(typeof(IMapper));
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+
         }
     }
 }

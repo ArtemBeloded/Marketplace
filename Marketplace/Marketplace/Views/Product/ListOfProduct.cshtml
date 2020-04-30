@@ -1,0 +1,144 @@
+﻿@model IEnumerable<Marketplace.Models.ShowProductVM>
+@using Newtonsoft.Json
+
+<style>
+
+	.sidenav {
+		height: 100%;
+		width: 160px;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		background-color: #111;
+		overflow-x: hidden;
+		padding-top: 120px;
+	}
+
+		.sidenav a {
+			padding: 6px 8px 6px 16px;
+			text-decoration: none;
+			font-size: 25px;
+			color: #818181;
+			display: block;
+		}
+
+			.sidenav a:hover {
+				color: #f1f1f1;
+			}
+
+	.sidenav {
+		font-size: 28px; /* Increased text to enable scrolling */
+	}
+</style>
+<div id="product-list">
+	<div class="sidenav" id="sidenav">
+		<p>Сортировка/группировка</p>
+		<p>Жанр</p>
+		<div>
+			@Html.ActionLink("Ужастик", "AddProduct", "Product", new { @class = "btn btn-success" })
+		</div>
+		<div>
+			@Html.ActionLink("Детектив", "AddProduct", "Product", new { @class = "btn btn-success" })
+		</div>
+		<div>
+			@Html.ActionLink("Мелодрамы", "AddProduct", "Product", new { @class = "btn btn-success" })
+		</div>
+		<div>
+			<button class="btn btn-info" v-on:click="sortByAlphabet()">В алфавитном порядке</button>
+		</div>
+		<div>
+			<button class="btn btn-info" v-on:click="sortByPriceAsc()">По возрастанию цены</button>
+		</div>
+		<div>
+			<button class="btn btn-info" v-on:click="sortByPriceDes()">По убыванию цены</button>
+		</div>
+	</div>
+
+
+	<p>asd</p>
+	<p>asd</p>
+	<p>asd</p>
+	<p>asd</p>
+	<p>asd</p>
+	<p>asd</p>
+	<p>asd</p>
+	<div class="main">
+		<div>
+			<div class="row">
+				<div class="container row">
+					<div v-for="(item) in list" class="col-sm-3">
+						<div class="card col-xs-4" style="width:220px;">
+							<img class="card-img-top" v-bind:src="`data:image/png;base64,${item.Photo}`" />
+							<div class="card-body">
+								<h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
+								<p class="card-text">{{item.ShortDescription}}</p>
+								<p>
+									<input class="btn btn-info" type="submit" v-on:click="addToCart(item)" value="Add to Cart" />
+									<input class="btn btn-info" type="submit" v-on:click="addToCart(item)" value="Add to Compare" />
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@section scripts{
+	<script src="~/lib/vue/vue.js"></script>
+	<script>
+        var app = new Vue({
+            el: "#product-list",
+            data: {
+                list: @Html.Raw(@JsonConvert.SerializeObject(Model))
+            },
+            methods: {
+				addToCart(product) {
+                    fetch(`/Cart/AddItem`, {
+						method: 'POST',
+						body: JSON.stringify(product),
+						headers: {
+                            'Content-Type': 'application/json'
+                        } })
+                        .then((response) => {
+                            console.log(response);
+                        });
+                },
+                sortByPriceDes() {
+                    this.list.sort((a, b) => {
+                        if (a.Price > b.Price) {
+                            return -1;
+                        }
+                        if (a.Price < b.Price) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                },
+                sortByPriceAsc() {
+                    this.list.sort((a, b) => {
+                        if (a.Price > b.Price) {
+                            return 1;
+                        }
+                        if (a.Price < b.Price) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                },
+                sortByAlphabet() {
+                    this.list.sort((a, b) => {
+                        if (a.Name > b.Name) {
+                            return 1;
+                        }
+                        if (a.Name < b.Name) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }
+            }
+        });
+	</script>
+}

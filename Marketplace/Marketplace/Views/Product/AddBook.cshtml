@@ -1,0 +1,44 @@
+﻿<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+@using (Html.BeginForm("SaveNewBook", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<form>
+    <div class="form-group">
+        <label for="inputname">Enter book name</label>
+        <input type="text" class="form-control" id="inputname" name="Name" value="" placeholder="Book name">
+    </div>
+    <div class="form-group">
+        <label for="inputauthor">Enter Author</label>
+        <input type="text" class="form-control" id="inputauthor" name="Author" value="" placeholder="Author name">
+    </div>
+    <div class="form-group">
+        <label for="inputcategoryid">Choose category</label>
+        <input type="text" class="form-control" id="inputcategoryid" name="CategoryId" value="" placeholder="Category">
+    </div>
+    <div class="form-group">
+        <label for="inputprice">Input price per one book</label>
+        <input type="text" class="form-control" id="inputprice" name="Price" value="" placeholder="Price">
+    </div>
+    <div class="form-group">
+        <label for="inputdescription">Enter description</label>
+        <textarea id="inputdescription" class="form-control" name="Description" rows="4" cols="50"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="inputquantity">Input quantity of book</label>
+        <input type="text" class="form-control" id="inputquantity" name="Quantity" value="" placeholder="Quantity">
+    </div>
+    <div class="editor-field">
+        <label for="inputphoto">Choose photo</label>
+        <input type="file" name="Photo" id="inputphoto" accept=".jpg, .jpeg, .png" />
+    </div>
+    <br>
+    <div class="form-group">
+        <input type="submit" value="Submit" />
+    </div>
+</form>
+}

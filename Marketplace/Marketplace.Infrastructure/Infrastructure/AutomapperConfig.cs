@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration;
+using Marketplace.DAL.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace Marketplace.Infrastructure.Infrastructure
 {
-    public class AutoMapperConfig : AutoMapper.Profile
-    {
-
-    }
+	public class AutoMapperConfig
+	{
+		public static MapperConfiguration ConfigureContainer(Action<IMapperConfigurationExpression> mapperConfiguration = null)
+		{
+			return new MapperConfiguration(cfg =>
+			{
+				mapperConfiguration.Invoke(cfg); 
+			});
+		}
+	}
 }
