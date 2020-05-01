@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Marketplace.DAL.Repositories
 {
-    public class CartRepository : ICartRepositiry
+    public class CartRepository : ICartRepository
     {
         private Cart _cart;
         private readonly HttpContextBase _httpContext;
@@ -35,9 +35,9 @@ namespace Marketplace.DAL.Repositories
             }
         }
 
-        public void RemoveItem(Product product) 
+        public void RemoveItem(Guid id) 
         {
-            _cart.CartList.RemoveAll(g => g.Product.Id == product.Id);
+            _cart.CartList.RemoveAll(g => g.Product.Id == id);
         }
 
         public double CountTotalValue() 

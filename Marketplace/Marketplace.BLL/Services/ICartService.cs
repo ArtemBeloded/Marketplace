@@ -10,7 +10,7 @@ namespace Marketplace.BLL.Services
     public interface ICartService
     {
         void AddItem(Product product, int quantity);
-        void RemoveItem(Product product);
+        void RemoveItem(Guid id);
         double CountTotalValue();
         void Clear();
         IEnumerable<CartLine> GetCart();

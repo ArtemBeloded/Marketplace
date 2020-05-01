@@ -72,10 +72,10 @@
 							<img class="card-img-top" v-bind:src="`data:image/png;base64,${item.Photo}`" />
 							<div class="card-body">
 								<h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
-								<p class="card-text">{{item.ShortDescription}}</p>
+                                <p class="card-text">{{item.ShortDescription}}&raquo;</p>
 								<p>
 									<input class="btn btn-info" type="submit" v-on:click="addToCart(item)" value="Add to Cart" />
-									<input class="btn btn-info" type="submit" v-on:click="addToCart(item)" value="Add to Compare" />
+									<input class="btn btn-info" type="submit" v-on:click="" value="Add to Compare" />
 								</p>
 							</div>
 						</div>

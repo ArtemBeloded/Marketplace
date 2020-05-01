@@ -1,4 +1,5 @@
-﻿using Marketplace.BLL.Services;
+﻿using AutoMapper;
+using Marketplace.BLL.Services;
 using Marketplace.DAL.Models;
 using Marketplace.Models;
 using System;
@@ -13,24 +14,37 @@ namespace Marketplace.Controllers
     {
         private ICartService _cartService;
         private IProductService _productService;
-        public CartController(ICartService cartService, IProductService productService)
+        private readonly IMapper _mapper;
+        public CartController(ICartService cartService, IProductService productService, IMapper mapper)
         {
             _cartService = cartService;
             _productService = productService;
+            _mapper = mapper;
         }
 
-        // GET: Cart
         public ActionResult CartShow()
         {
-            var cart = _cartService.GetCart();
-            return View();
+            var cart = _mapper.Map<IEnumerable<CartLineVM>>(_cartService.GetCart());
+            return View(cart);
         }
 
         [HttpPost]
         public ActionResult AddItem(ShowProductVM viewModel) 
         {
-            //var product = _productService.GetProduct(id);
-           // _cartService.AddItem(product, 1);
+            var product = _mapper.Map<Product>(viewModel);
+            _cartService.AddItem(product, 1);
+            return RedirectToAction("ListOfProduct", "Product");
+        }
+
+        public ActionResult RemoveItem(Guid id) 
+        {
+            _cartService.RemoveItem(id);
+            return RedirectToAction("CartShow", "Cart");
+        }
+
+        public ActionResult Purchase() 
+        {
+            _cartService.Clear();
             return RedirectToAction("ListOfProduct", "Product");
         }
 

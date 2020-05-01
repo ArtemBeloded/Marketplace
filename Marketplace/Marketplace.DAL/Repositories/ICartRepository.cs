@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Marketplace.DAL.Repositories
 {
-    public interface ICartRepositiry
+    public interface ICartRepository
     {
         void AddItem(Product product, int quantity);
-        void RemoveItem(Product product);
+        void RemoveItem(Guid id);
         double CountTotalValue();
         void Clear();
         IEnumerable<CartLine> GetCart();

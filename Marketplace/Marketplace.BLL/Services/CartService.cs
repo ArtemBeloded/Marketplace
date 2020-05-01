@@ -10,9 +10,9 @@ namespace Marketplace.BLL.Services
 {
     public class CartService : ICartService
     {
-        private ICartRepositiry _cartRepositiry;
+        private ICartRepository _cartRepositiry;
 
-        public CartService(ICartRepositiry cartRepositiry)
+        public CartService(ICartRepository cartRepositiry)
         {
             _cartRepositiry = cartRepositiry;
         }
@@ -22,9 +22,9 @@ namespace Marketplace.BLL.Services
             _cartRepositiry.AddItem(product, quantity);
         }
 
-        public void RemoveItem(Product product) 
+        public void RemoveItem(Guid id) 
         {
-            _cartRepositiry.RemoveItem(product);
+            _cartRepositiry.RemoveItem(id);
         }
 
         public double CountTotalValue() 
