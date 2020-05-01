@@ -168,8 +168,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AutoMapperConfigHelper.cs" />
+    <Compile Include="Helpers\PaginationHelper.cs" />
     <Compile Include="Models\CartLineVM.cs" />
     <Compile Include="Models\EditProductVM.cs" />
+    <Compile Include="Models\PaginationVM.cs" />
     <Compile Include="Models\ProductCartLineVM.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\ShowProductVM.cs" />

@@ -60,7 +60,7 @@ namespace Marketplace.DAL.Repositories
             {
                 _httpContext.Session["Products"] = new List<Product>();
                 listOfProducts = _httpContext.Session["Products"] as List<Product>;
-                for (int i = 0; i < 15; i++)
+                for (int i = 0; i < 100; i++)
                 {
                     listOfProducts.Add(new Product()
                     {
