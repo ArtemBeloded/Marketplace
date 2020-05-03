@@ -34,7 +34,6 @@ namespace Marketplace.Helpers
                 cfg.CreateMap<CartLine, CartLineVM>();
 
                 cfg.CreateMap<Product, ProductCartLineVM>();
-
             };
         }
         private static string ConvertHttpPostedFileBaseToString(HttpPostedFileBase httpPostedFile)

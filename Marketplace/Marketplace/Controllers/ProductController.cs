@@ -82,6 +82,15 @@ namespace Marketplace.Controllers
             return RedirectToAction("ListOfProduct");
         }
 
+        public ActionResult ProductDetail(Guid id) 
+        {
+            var product = _mapper.Map<ShowProductVM>(_productService.GetProduct(id));
+            return View(product);
+        }
+
+
+
+
         //[HttpPost]
         //public ActionResult DeleteProduct(Guid id)
         //{
