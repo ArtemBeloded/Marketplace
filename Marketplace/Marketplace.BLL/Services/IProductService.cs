@@ -1,4 +1,5 @@
 ﻿using Marketplace.DAL.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace Marketplace.BLL.Services
 {
     public interface IProductService
     {
-        IEnumerable<Product> GetProducts();
+        IPagedList<Product> GetProducts(int page, int itemsPerPage, string searchText);
+        IEnumerable<Product> GetProductsByCategory(int category);
         Product GetProduct(Guid id);
         bool AddProduct(Product product);
         bool RemoveProduct(Guid id);

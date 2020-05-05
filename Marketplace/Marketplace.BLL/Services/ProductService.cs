@@ -1,5 +1,6 @@
 ﻿using Marketplace.DAL.Models;
 using Marketplace.DAL.Repositories;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,15 @@ namespace Marketplace.BLL.Services
             return _productRepository.GetProduct(id);
         }
 
-        public IEnumerable<Product> GetProducts()
+        public IPagedList<Product> GetProducts(int page, int itemsPerPage, string searchText)
         {
-            return _productRepository.GetProducts();
+            return _productRepository.GetProducts(page, itemsPerPage, searchText);
+        }
+
+
+        public IEnumerable<Product> GetProductsByCategory(int category)
+        {
+            return _productRepository.GetProductsByCategory(category);
         }
 
         public bool RemoveProduct(Guid id)

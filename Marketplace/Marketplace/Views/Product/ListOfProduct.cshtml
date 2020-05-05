@@ -1,10 +1,13 @@
-﻿@model Marketplace.Models.PaginationVM
+﻿@model PagedList.IPagedList<Marketplace.DAL.Models.Product>
 @using Marketplace.Helpers
 @using Newtonsoft.Json
+@using PagedList.Mvc
+@using Marketplace.Controllers
 
 <style>
 
-    .sidenav {
+    @@import url('../../Content/PagedList.css');
+.sidenav {
         height: 100%;
         width: 160px;
         position: fixed;
@@ -35,6 +38,8 @@
     .card {
         cursor: pointer;
     }
+
+
 </style>
 <div id="product-list">
     <div class="sidenav" id="sidenav">
@@ -74,18 +79,14 @@
         <div>
             <div class="row">
                 <div class="container row">
-                    <div v-for="(item) in list" class="col-sm-3" >
-                        <div class="card col-xs-4" style="width:220px;">
-                            <div @@click="goToDetail(item.Id)">
-                                <img class="card-img-top" v-bind:src="`data:image/png;base64,${item.Photo}`" />
-                                <div class="card-body">
-                                    <h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
-                                    <p class="card-text">{{item.ShortDescription}}&raquo;</p>
-                                </div>
-                            </div>
+                    <div v-for="(item) in list" class="col-sm-3">
+                        <div class="card col-xs-4" style="width:220px;" @@click.stop="goToDetail(item.Id)">
+                            <img class="card-img-top" v-bind:src="`data:image/png;base64,${item.Photo}`" />
                             <div class="card-body">
+                                <h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
+                                <p class="card-text">{{item.ShortDescription}}&raquo;</p>
                                 <p>
-                                    <input class="btn btn-info" type="submit" v-on:click="addToCart(item)" value="Add to Cart" />
+                                    <input class="btn btn-info" type="submit" v-on:click.stop="addToCart(item)" value="Add to Cart" />
                                     <input class="btn btn-info" type="submit" v-on:click="" value="Add to Compare" />
                                 </p>
                             </div>
@@ -96,7 +97,7 @@
         </div>
         <br />
         <div class="btn-group">
-            @Html.PageLinks(Model.PageInfo, x => Url.Action("ListOfProduct", "Product", new { page = x }))
+            @Html.PagedListPager(Model, page => Url.Action(nameof(ProductController.ListOfProduct), new {page, currentSearch = ViewBag.SearchText}))
         </div>
     </div>
 </div>
@@ -106,7 +107,10 @@
         var app = new Vue({
             el: "#product-list",
             data: {
-                list: @Html.Raw(@JsonConvert.SerializeObject(Model.Products))
+                list: @Html.Raw(@JsonConvert.SerializeObject(Model))
+            },
+            created() {
+                console.log(list)
             },
             methods: {
                 addToCart(product) {

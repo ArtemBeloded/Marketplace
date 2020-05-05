@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Marketplace.DAL.Models;
 using Marketplace.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,9 @@ namespace Marketplace.Helpers
                 cfg.CreateMap<CartLine, CartLineVM>();
 
                 cfg.CreateMap<Product, ProductCartLineVM>();
+
+                cfg.CreateMap<CredentialVM, Credential>();
+                cfg.CreateMap<RegistrationUserVM, User>();
             };
         }
         private static string ConvertHttpPostedFileBaseToString(HttpPostedFileBase httpPostedFile)

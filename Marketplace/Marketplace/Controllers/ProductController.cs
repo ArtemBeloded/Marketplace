@@ -3,6 +3,7 @@ using Marketplace.BLL.Services;
 using Marketplace.DAL.Models;
 using Marketplace.Models;
 using Microsoft.AspNetCore.Http;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,29 +23,16 @@ namespace Marketplace.Controllers
             _mapper = mapper;
         }
 
-        // GET: Product
-        public ActionResult ListOfProduct(int page = 1)
-        {
-            var products = _mapper.Map<IEnumerable<ShowProductVM>>(_productService.GetProducts());
-            int pageSize = 20;
-            var productsPerPages = products.Skip((page - 1) * pageSize).Take(pageSize);
 
-            var paginationVM = new PaginationVM()
-            {
-                Products = productsPerPages,
-                PageInfo = new PageInfo()
-                {
-                    PageNumber = page,
-                    PageSize = pageSize,
-                    TotalItems = products.Count()
-                }
-            };
-            return View(paginationVM);
-        }
-        [HttpPost]
-        public ActionResult ListOfProduct(string searchText)
+        // GET: Product
+        public ActionResult ListOfProduct(string currentSearch, int page = 1, int count = 10, string searchText = null)
         {
-            var products = _productService.GetProducts();
+            if (searchText == null) 
+            {
+                searchText = currentSearch;
+            }
+            ViewBag.SearchText = searchText;
+            var products = _productService.GetProducts(page, count, searchText);
             return View(products);
         }
 
@@ -52,6 +40,7 @@ namespace Marketplace.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult SaveNewBook(ProductViewModel productView)
         {

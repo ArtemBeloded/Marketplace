@@ -68,7 +68,7 @@
                         <td> {{item.Product.Name}},{{item.Product.Author}}</td>
                         <td>{{item.Product.Price}}</td>
                         <td>{{item.Quantity}}</td>
-                        <td>{{item.Product.Price * item.Quantity}}грн.</td>
+                        <td>{{item.Product.Price * item.Quantity | toCurrency}}</td>
                         <td>
                             <input class="btn btn-danger" type="submit" v-on:click="deleteProduct(item, i)" value="Удалить" />
                         </td>
@@ -76,7 +76,7 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
-                <h5>Итого: <span class="price text-success">{{calcTotal}}грн.</span></h5>
+                <h5>Итого: <span class="price text-success">{{calcTotal | toCurrency}}</span></h5>
             </div>
         </div>
         <div class="modal-footer border-top-0 d-flex justify-content-between">
@@ -95,6 +95,11 @@
             el: "#cart-list",
             data: {
                 list: @Html.Raw(@JsonConvert.SerializeObject(Model)),
+            },
+            filters: {
+                toCurrency(value) {
+                    return value + " грн.";
+                }
             },
             methods: {
                 deleteProduct(product, index) {
