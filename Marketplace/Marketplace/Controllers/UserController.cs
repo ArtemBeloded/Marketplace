@@ -45,7 +45,7 @@ namespace Marketplace.Controllers
             else
                 ModelState.AddModelError("LoginError", "The user name or password provided is incorrect.");
 
-            return RedirectToAction("Profile", "Users");
+            return RedirectToAction("ListOfProduct", "Product");
         }
 
         private bool PasswordIsCorrect(string username, string password)
