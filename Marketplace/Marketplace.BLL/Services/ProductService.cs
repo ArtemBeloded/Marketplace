@@ -22,7 +22,7 @@ namespace Marketplace.BLL.Services
             return _productRepository.AddProduct(product);
         }
 
-        public Product GetProduct(Guid id)
+        public Product GetProduct(int id)
         {
             return _productRepository.GetProduct(id);
         }
@@ -32,13 +32,7 @@ namespace Marketplace.BLL.Services
             return _productRepository.GetProducts(page, itemsPerPage, searchText);
         }
 
-
-        public IEnumerable<Product> GetProductsByCategory(int category)
-        {
-            return _productRepository.GetProductsByCategory(category);
-        }
-
-        public bool RemoveProduct(Guid id)
+        public bool RemoveProduct(int id)
         {
             return _productRepository.RemoveProduct(id);
         }

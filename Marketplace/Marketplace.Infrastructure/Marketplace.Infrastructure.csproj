@@ -209,8 +209,8 @@
       <Project>{0BCC58F3-9631-4247-87F0-0FAEEC0107E4}</Project>
       <Name>Marketplace.BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Marketplace.DAL\Marketplace.DAL.csproj">
-      <Project>{CB85DAA3-94B1-48B1-945A-E4526A0F2FEB}</Project>
+    <ProjectReference Include="..\Test\Marketplace.DAL.csproj">
+      <Project>{5ABC7C4E-0DAD-4A72-AB3C-104AA4A02CD7}</Project>
       <Name>Marketplace.DAL</Name>
     </ProjectReference>
   </ItemGroup>

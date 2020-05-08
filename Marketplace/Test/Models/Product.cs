@@ -9,13 +9,13 @@ namespace Marketplace.DAL.Models
 {
     public class Product
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
         public string Author { get; set; }
 
-        public int CategoryId { get; set; }
+        public Category Category { get; set; }
 
         public double Price { get; set; }
 
@@ -26,5 +26,7 @@ namespace Marketplace.DAL.Models
         public int Quantity { get; set; }
 
         public string Photo { get; set; }
+
+        public int UserId { get; set; }
     }
 }

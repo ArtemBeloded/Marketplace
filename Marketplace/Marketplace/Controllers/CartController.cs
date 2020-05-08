@@ -36,7 +36,7 @@ namespace Marketplace.Controllers
             return RedirectToAction("ListOfProduct", "Product");
         }
 
-        public ActionResult RemoveItem(Guid id) 
+        public ActionResult RemoveItem(int id) 
         {
             _cartService.RemoveItem(id);
             return RedirectToAction("CartShow", "Cart");

@@ -1,4 +1,5 @@
-﻿using Marketplace.DAL.Models;
+﻿using Marketplace.BLL.Repositories;
+using Marketplace.DAL.Models;
 using Marketplace.DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Marketplace.BLL.Services
             _cartRepositiry.AddItem(product, quantity);
         }
 
-        public void RemoveItem(Guid id) 
+        public void RemoveItem(int id) 
         {
             _cartRepositiry.RemoveItem(id);
         }

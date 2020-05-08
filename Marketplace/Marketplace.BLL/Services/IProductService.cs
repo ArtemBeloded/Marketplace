@@ -11,10 +11,9 @@ namespace Marketplace.BLL.Services
     public interface IProductService
     {
         IPagedList<Product> GetProducts(int page, int itemsPerPage, string searchText);
-        IEnumerable<Product> GetProductsByCategory(int category);
-        Product GetProduct(Guid id);
+        Product GetProduct(int id);
         bool AddProduct(Product product);
-        bool RemoveProduct(Guid id);
+        bool RemoveProduct(int id);
         bool UpdateProduct(Product product);
     }
 }

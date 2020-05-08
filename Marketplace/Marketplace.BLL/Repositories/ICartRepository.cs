@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Marketplace.DAL.Repositories
+namespace Marketplace.BLL.Repositories
 {
     public interface ICartRepository
     {
         void AddItem(Product product, int quantity);
-        void RemoveItem(Guid id);
+        void RemoveItem(int id);
         double CountTotalValue();
         void Clear();
         IEnumerable<CartLine> GetCart();

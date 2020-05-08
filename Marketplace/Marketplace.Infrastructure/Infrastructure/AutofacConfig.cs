@@ -1,8 +1,11 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using AutoMapper;
+using Marketplace.BLL.Repositories;
 using Marketplace.BLL.Services;
+using Marketplace.DAL.DataBaseContext;
 using Marketplace.DAL.Repositories;
+using System.Configuration;
 using System.Web;
 
 namespace Marketplace.Infrastructure.Infrastructure
@@ -13,6 +16,11 @@ namespace Marketplace.Infrastructure.Infrastructure
         {
             var builder = new ContainerBuilder();
 
+            builder.Register(x =>
+            {
+                var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                return new MarketplaceContext(connectionString);
+            }).AsSelf();
             builder.RegisterType<ProductRepository>().As<IProductRepository>();
             builder.RegisterType<ProductService>().As<IProductService>();
             builder.RegisterType<CartRepository>().As<ICartRepository>();
@@ -22,6 +30,7 @@ namespace Marketplace.Infrastructure.Infrastructure
             builder.RegisterType<UserService>().As<IUserService>();
 
             builder.RegisterType<IMapper>();
+            
             return builder;
         }
     }

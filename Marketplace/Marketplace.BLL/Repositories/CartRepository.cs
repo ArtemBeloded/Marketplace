@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Marketplace.DAL.Repositories
+namespace Marketplace.BLL.Repositories
 {
     public class CartRepository : ICartRepository
     {
@@ -35,7 +35,7 @@ namespace Marketplace.DAL.Repositories
             }
         }
 
-        public void RemoveItem(Guid id) 
+        public void RemoveItem(int id) 
         {
             _cart.CartList.RemoveAll(g => g.Product.Id == id);
         }

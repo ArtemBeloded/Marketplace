@@ -2,11 +2,7 @@
 using Marketplace.BLL.Services;
 using Marketplace.DAL.Models;
 using Marketplace.Models;
-using Microsoft.AspNetCore.Http;
-using PagedList;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,6 +29,8 @@ namespace Marketplace.Controllers
             }
             ViewBag.SearchText = searchText;
             var products = _productService.GetProducts(page, count, searchText);
+
+
             return View(products);
         }
 
@@ -45,12 +43,11 @@ namespace Marketplace.Controllers
         public ActionResult SaveNewBook(ProductViewModel productView)
         {
             Product product = _mapper.Map<Product>(productView);
-            product.Id = Guid.NewGuid();
             _productService.AddProduct(product);
             return RedirectToAction("ListOfProduct");
         }
 
-        public ActionResult EditProduct(Guid id)
+        public ActionResult EditProduct(int id)
         {
             var product = _mapper.Map<UpdateProductVM>(_productService.GetProduct(id));
             return View(product);
@@ -71,7 +68,7 @@ namespace Marketplace.Controllers
             return RedirectToAction("ListOfProduct");
         }
 
-        public ActionResult ProductDetail(Guid id) 
+        public ActionResult ProductDetail(int id) 
         {
             var product = _mapper.Map<ShowProductVM>(_productService.GetProduct(id));
             return View(product);
