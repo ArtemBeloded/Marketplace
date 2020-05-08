@@ -21,8 +21,6 @@ namespace Marketplace.DAL.Models
 
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Enter numerical amount")]
-        [RegularExpression("^[0-9]+$", ErrorMessage = "Enter a valid quantity")]
         public int Quantity { get; set; }
 
         public string Photo { get; set; }

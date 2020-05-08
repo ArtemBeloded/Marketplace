@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Marketplace.Controllers
 {
@@ -31,19 +32,16 @@ namespace Marketplace.Controllers
         public ActionResult Login(LoginUserVM model)
         {
             var user = _userService.GetUser(model.Username);
-            if (user != null || PasswordIsCorrect(user.Username, model.Password))
+            if (user != null && PasswordIsCorrect(user.Username, model.Password))
             {
                 Json("Successfull Login", JsonRequestBehavior.AllowGet);
-                //FormsAuthentication.SetAuthCookie(user.Username, true);
-
-                //if (Url.IsLocalUrl(url) && url.Length > 1 && url.StartsWith("/")
-                //    && !url.StartsWith("//") && !url.StartsWith("/\\"))
-                //    return Redirect(url);
-                //else
-                //    return RedirectToAction("RedirectToDefault");
+                FormsAuthentication.SetAuthCookie(model.Username, true);
             }
-            else
+            else 
+            {
                 ModelState.AddModelError("LoginError", "The user name or password provided is incorrect.");
+            }
+                
 
             return RedirectToAction("ListOfProduct", "Product");
         }
@@ -70,15 +68,21 @@ namespace Marketplace.Controllers
             return hash.ToString();
         }
 
-
+        [AllowAnonymous]
+        [HttpPost]
         public JsonResult SaveData(RegistrationUserVM model)
         {
-            var credentials = _mapper.Map<Credential>(Credentials(model.Username, model.Password));
+            var check = _userService.GetUser(model.Username);
+            if (check == null) 
+            {
+                var credentials = _mapper.Map<Credential>(Credentials(model.Username, model.Password));
 
-            var user = _mapper.Map<User>(model);
-            user.Id = 1;
+                var user = _mapper.Map<User>(model);
 
-            _userService.SaveData(user, credentials);
+                _userService.SaveData(user, credentials);
+            }
+            else
+                ModelState.AddModelError("Not new user", "Create new username");
 
             return Json("Registration Successfull", JsonRequestBehavior.AllowGet);
         }
@@ -103,6 +107,18 @@ namespace Marketplace.Controllers
             };
 
             return credentials;
+        }
+
+        public ActionResult Logoff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "User");
+        }
+        [HttpPost]
+        public ActionResult RemoveUser(string username) 
+        {
+            _userService.RemoveUser(username);
+            return RedirectToAction("ListOfUsers");
         }
 
     }

@@ -15,8 +15,9 @@ namespace Marketplace.Helpers
         {
             return (cfg) =>
             {
-                cfg.CreateMap<Product, ProductViewModel>();
-                cfg.CreateMap<ProductViewModel, Product>().ForMember(x => x.Photo, config =>
+                cfg.CreateMap<Product, CreateProductVM>();
+                cfg.CreateMap<CreateProductVM, Product>()
+                .ForMember(x => x.Photo, config =>
                     config.MapFrom((dest) => ConvertHttpPostedFileBaseToString(dest.Photo)));
 
                 cfg.CreateMap<Product, ShowProductVM>()
@@ -27,10 +28,6 @@ namespace Marketplace.Helpers
 
                 cfg.CreateMap<Product, UpdateProductVM>();
                 cfg.CreateMap<UpdateProductVM, Product>();
-
-                cfg.CreateMap<EditProductVM, Product>()
-                .ForMember(x => x.Photo, config =>
-                    config.MapFrom((dest) => ConvertHttpPostedFileBaseToString(dest.Photo)));
 
                 cfg.CreateMap<CartLine, CartLineVM>();
 

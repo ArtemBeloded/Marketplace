@@ -57,11 +57,11 @@ namespace Marketplace.BLL.Repositories
 
         private void InitialSession() 
         {
-            _cart = _httpContext.Session[_httpContext.User.ToString()] as Cart;
+            _cart = _httpContext.Session[_httpContext.User.Identity.Name] as Cart;
             if (_cart == null) 
             {
-                _httpContext.Session[_httpContext.User.ToString()] = new Cart();
-                _cart = _httpContext.Session[_httpContext.User.ToString()] as Cart;
+                _httpContext.Session[_httpContext.User.Identity.Name] = new Cart();
+                _cart = _httpContext.Session[_httpContext.User.Identity.Name] as Cart;
             }
         }
     }

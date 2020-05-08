@@ -1,5 +1,6 @@
 ﻿using Marketplace.DAL.DataBaseContext;
 using Marketplace.DAL.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,50 +19,39 @@ namespace Marketplace.DAL.Repositories
             _marketplaceContext = marketplaceContext;
         }
 
-        public User GetUser(string username) 
+        public User GetUser(string username)
         {
-            using (_marketplaceContext) 
-            {
-                var user = _marketplaceContext.Users.FirstOrDefault(x => x.Username == username);
-                return user;
-            }
+            var user = _marketplaceContext.Users.FirstOrDefault(x => x.Username == username);
+            return user;
         }
 
-        public Credential GetCredential(string username) 
+        public Credential GetCredential(string username)
         {
-            using (_marketplaceContext) 
-            {
-                var credential = _marketplaceContext.Credentials.FirstOrDefault(x => x.Username == username);
-                return credential;
-            }
+            var credential = _marketplaceContext.Credentials.FirstOrDefault(x => x.Username == username);
+            return credential;
         }
 
-        public List<User> GetUsers() 
+        public IPagedList<User> GetUsers(int page, int itemsPerPage)
         {
-            using (_marketplaceContext) 
-            {
-                return _marketplaceContext.Users.ToList();
-            }    
+            var users = _marketplaceContext.Users.AsQueryable();
+            users = users.Where(x => x.Role == "Seller" | x.Role == "Buyer");
+            return users.ToList().ToPagedList(page, itemsPerPage);
         }
 
-        public void RemoveUser(string username) 
+        public void RemoveUser(string username)
         {
-            using (_marketplaceContext) 
-            {
-                var user = _marketplaceContext.Users.FirstOrDefault(x => x.Username == username);
-                _marketplaceContext.Users.Remove(user);
-                _marketplaceContext.SaveChanges();
-            }
-        } 
 
-        public void SaveData(User user, Credential credential) 
+            var user = _marketplaceContext.Users.FirstOrDefault(x => x.Username == username);
+            _marketplaceContext.Users.Remove(user);
+            _marketplaceContext.SaveChanges();
+        }
+
+        public void SaveData(User user, Credential credential)
         {
-            using (_marketplaceContext) 
-            {
-                _marketplaceContext.Users.Add(user);
-                _marketplaceContext.Credentials.Add(credential);
-                _marketplaceContext.SaveChanges();
-            }
+
+            _marketplaceContext.Users.Add(user);
+            _marketplaceContext.Credentials.Add(credential);
+            _marketplaceContext.SaveChanges();
         }
     }
 }

@@ -1,0 +1,84 @@
+﻿@model PagedList.IPagedList<Marketplace.DAL.Models.User>
+@using Newtonsoft.Json
+@using PagedList.Mvc
+@using Marketplace.Controllers
+
+
+<style>
+
+    @@import url('../../Content/PagedList.css');
+</style>
+
+
+
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+
+<h1>Список пользователей</h1>
+
+<table id="user-list" class="table  table-bordered ">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>E-mail</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="(item,i) in list">
+            <td>{{item.Username}}</td>
+            <td>{{item.Name}}</td>
+            <td>{{item.Surname}}</td>
+            <td>{{item.Email}}</td>
+            <td>{{item.Role}}</td>
+            <td>
+                <input class="btn btn-danger" type="submit" value="Delete" v-on:click="deleteUser(item, i)" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="btn-group">
+    @Html.PagedListPager(Model, page => Url.Action(nameof(AdminController.ListOfUsers), new { page }))
+</div>
+
+@section scripts{
+    <script src="~/lib/vue/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#user-list",
+            data: {
+                list: @Html.Raw(@JsonConvert.SerializeObject(Model))
+            },
+            created() {
+                this.list.sort((a, b) => {
+                    if (a.Role > b.Role) {
+                        return 1;
+                    }
+                    if (a.Role < b.Role) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            },
+            methods: {
+                deleteUser(user, index) {
+                    var isConfirmed = confirm(`Confirm delete user ${user.Username}?`);
+                    if (isConfirmed) {
+                        fetch(`User/RemoveUser/${user.Username}`, { method: 'POST' })
+                        .then((response) => {
+                            this.list.splice(index, 1);
+                        });
+                    }
+                }
+			 }
+        });
+    </script>
+}

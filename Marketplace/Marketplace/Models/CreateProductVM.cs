@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 
 namespace Marketplace.Models
 {
-    public class ProductDetail
+    public class CreateProductVM
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Author { get; set; }
 
-        public int CategoryId { get; set; }
+        public CategoryVM Category { get; set; }
 
         public double Price { get; set; }
 
@@ -21,6 +16,6 @@ namespace Marketplace.Models
 
         public int Quantity { get; set; }
 
-        public string Photo { get; set; }
+        public HttpPostedFileBase Photo { get; set; }
     }
 }

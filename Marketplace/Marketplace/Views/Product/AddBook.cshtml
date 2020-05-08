@@ -1,4 +1,6 @@
-﻿<p>asd</p>
+﻿@model Marketplace.Models.CreateProductVM
+
+<p>asd</p>
 <p>asd</p>
 <p>asd</p>
 <p>asd</p>
@@ -18,7 +20,7 @@
     </div>
     <div class="form-group">
         <label for="inputcategoryid">Choose category</label>
-        <input type="text" class="form-control" id="inputcategoryid" name="CategoryId" value="" placeholder="Category">
+        @Html.EnumDropDownListFor(Model => Model.Category, new { @class = "form-control" })
     </div>
     <div class="form-group">
         <label for="inputprice">Input price per one book</label>

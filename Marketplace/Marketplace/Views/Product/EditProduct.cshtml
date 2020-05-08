@@ -13,6 +13,9 @@
     <div class="form-group" style="display: none;">
         <input type="text" class="form-control" id="inputId" name="Id" value="@Model.Id">
     </div>
+    <div class="form-group" style="display: none;">
+        <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId">
+    </div>
     <div class="form-group">
         <label for="inputname">Enter book name</label>
         <input type="text" class="form-control" id="inputname" name="Name" value="@Model.Name">
@@ -23,7 +26,7 @@
     </div>
     <div class="form-group">
         <label for="inputcategoryid">Choose category</label>
-        <input type="text" class="form-control" id="inputcategoryid" name="CategoryId" value="@Model.CategoryId">
+        @Html.EnumDropDownListFor(Model => Model.Category, new { @class = "form-control" })
     </div>
     <div class="form-group">
         <label for="inputprice">Input price per one book</label>
@@ -39,12 +42,12 @@
     </div>
     <div class="editor-field">
         <label for="inputphoto">Choose photo</label>
-        <input onchange=file_changed() type="file" name="PhotoFile" id="inputphoto" accept=".jpg, .jpeg, .png"  value=""/>
+        <input onchange=file_changed() type="file" name="PhotoFile" id="inputphoto" accept=".jpg, .jpeg, .png" value="" />
         <br>
         <img id="img" src="data:image/png;base64,@Model.Photo">
     </div>
 
-    <input type="hidden" name="Photo" value="@Model.Photo"/>
+    <input type="hidden" name="Photo" value="@Model.Photo" />
     <div class="form-group">
         <input onclick="filedata()" type="submit" value="Submit" />
     </div>

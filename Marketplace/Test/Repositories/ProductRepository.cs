@@ -21,57 +21,49 @@ namespace Marketplace.DAL.Repositories
 
         public IPagedList<Product> GetProducts(int page, int itemsPerPage, string searchText)
         {
-            using (_marketplaceContext) 
+            var products = _marketplaceContext.Products.AsQueryable();
+            if (!string.IsNullOrEmpty(searchText))
             {
-                var products = _marketplaceContext.Products.AsQueryable();
-                if (!string.IsNullOrEmpty(searchText))
-                {
-                    products = products.Where(x => x.Name.ToLower().Contains(searchText.ToLower()) |
-                                                        x.Author.ToLower().Contains(searchText.ToLower()));
-                }
-                return products.ToPagedList(page, itemsPerPage);
+                products = products.Where(x => x.Name.ToLower().Contains(searchText.ToLower()) |
+                                                    x.Author.ToLower().Contains(searchText.ToLower()));
             }
+            return products.ToPagedList(page, itemsPerPage);
         }
 
         public Product GetProduct(int id)
         {
-            using (_marketplaceContext) 
-            {
-                var product = _marketplaceContext.Products.FirstOrDefault(x => x.Id == id);
-                return product;
-            }
+
+            var product = _marketplaceContext.Products.FirstOrDefault(x => x.Id == id);
+            return product;
         }
 
         public bool AddProduct(Product product)
         {
-            using (_marketplaceContext) 
-            {
-                _marketplaceContext.Products.Add(product);
-                
-                return true;
-            }
+            _marketplaceContext.Products.Add(product);
+            _marketplaceContext.SaveChanges();
+            return true;
         }
 
         public bool RemoveProduct(int id)
         {
-            using (_marketplaceContext) 
-            {
-                var product = _marketplaceContext.Products.FirstOrDefault(x => x.Id == id);
-                _marketplaceContext.Products.Remove(product);
-                _marketplaceContext.SaveChanges();
-                return true;
-            }
+            var product = _marketplaceContext.Products.FirstOrDefault(x => x.Id == id);
+            _marketplaceContext.Products.Remove(product);
+            _marketplaceContext.SaveChanges();
+            return true;
         }
 
         public bool UpdateProduct(Product product)
         {
-            using (_marketplaceContext) 
-            {
-                var item = _marketplaceContext.Products.FirstOrDefault(x => x.Id == product.Id);
-                item = product;
-                _marketplaceContext.SaveChanges();
-                return true;
-            }
+            var item = _marketplaceContext.Products.Find(product.Id);
+            item.Name = product.Name;
+            item.Author = product.Author;
+            item.Category = product.Category;
+            item.Price = product.Price;
+            item.Description = product.Description;
+            item.Quantity = product.Quantity;
+            item.Photo = product.Photo;
+            _marketplaceContext.SaveChanges();
+            return true;
         }
     }
 }

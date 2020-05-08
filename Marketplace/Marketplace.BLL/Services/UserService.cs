@@ -1,5 +1,6 @@
 ﻿using Marketplace.DAL.Models;
 using Marketplace.DAL.Repositories;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,9 @@ namespace Marketplace.BLL.Services
             return _userRepository.GetUser(username);
         }
 
-        public List<User> GetUsers()
+        public IPagedList<User> GetUsers(int page, int itemsPerPage)
         {
-            return _userRepository.GetUsers();
+            return _userRepository.GetUsers(page, itemsPerPage);
         }
 
         public void RemoveUser(string username)

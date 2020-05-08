@@ -1,4 +1,5 @@
 ﻿using Marketplace.DAL.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Marketplace.BLL.Services
     {
         User GetUser(string username);
         Credential GetCredential(string username);
-        List<User> GetUsers();
+        IPagedList<User> GetUsers(int page, int itemsPerPage);
         void RemoveUser(string username);
         void SaveData(User user, Credential credential);
     }

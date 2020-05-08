@@ -1,5 +1,4 @@
 ﻿@model PagedList.IPagedList<Marketplace.DAL.Models.Product>
-@using Marketplace.Helpers
 @using Newtonsoft.Json
 @using PagedList.Mvc
 @using Marketplace.Controllers
@@ -84,10 +83,9 @@
                             <img class="card-img-top" v-bind:src="`data:image/png;base64,${item.Photo}`" />
                             <div class="card-body">
                                 <h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
-                                <p class="card-text">{{item.ShortDescription}}&raquo;</p>
+                                <p class="card-text">{{item.ShortDescription}}</p>
                                 <p>
                                     <input class="btn btn-info" type="submit" v-on:click.stop="addToCart(item)" value="Add to Cart" />
-                                    <input class="btn btn-info" type="submit" v-on:click="" value="Add to Compare" />
                                 </p>
                             </div>
                         </div>

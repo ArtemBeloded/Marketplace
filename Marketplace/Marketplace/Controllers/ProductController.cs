@@ -12,11 +12,13 @@ namespace Marketplace.Controllers
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public ProductController(IProductService productService, IMapper mapper)
+        public ProductController(IProductService productService, IMapper mapper, IUserService userService)
         {
             _productService = productService;
             _mapper = mapper;
+            _userService = userService;
         }
 
 
@@ -30,7 +32,6 @@ namespace Marketplace.Controllers
             ViewBag.SearchText = searchText;
             var products = _productService.GetProducts(page, count, searchText);
 
-
             return View(products);
         }
 
@@ -40,9 +41,11 @@ namespace Marketplace.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveNewBook(ProductViewModel productView)
+        public ActionResult SaveNewBook(CreateProductVM productView)
         {
             Product product = _mapper.Map<Product>(productView);
+            var currentUser = _userService.GetUser(HttpContext.User.Identity.Name);
+            product.UserId = currentUser.Id;
             _productService.AddProduct(product);
             return RedirectToAction("ListOfProduct");
         }
@@ -75,13 +78,10 @@ namespace Marketplace.Controllers
         }
 
 
-
-
-        //[HttpPost]
-        //public ActionResult DeleteProduct(Guid id)
-        //{
-        //	_productService.DeleteProduct(id);
-        //	return RedirectToAction("ListOfProduct");
-        //}
+        public ActionResult DeleteProduct(int id)
+        {
+            _productService.RemoveProduct(id);
+            return RedirectToAction("ListOfProduct");
+        }
     }
 }

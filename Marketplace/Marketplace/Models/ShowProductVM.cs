@@ -13,7 +13,7 @@ namespace Marketplace.Models
 
         public string Author { get; set; }
 
-        public int CategoryId { get; set; }
+        public string Category { get; set; }
 
         public double Price { get; set; }
 
@@ -24,5 +24,7 @@ namespace Marketplace.Models
         public int Quantity { get; set; }
 
         public string Photo { get; set; }
+
+        public int UserId { get; set; }
     }
 }
