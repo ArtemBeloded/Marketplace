@@ -6,7 +6,6 @@ using Marketplace.BLL.Services;
 using Marketplace.DAL.DataBaseContext;
 using Marketplace.DAL.Repositories;
 using System.Configuration;
-using System.Web;
 
 namespace Marketplace.Infrastructure.Infrastructure
 {

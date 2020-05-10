@@ -8,12 +8,9 @@ using System.Text;
 using System.Security.Claims;
 using Microsoft.Owin.Security;
 using System.Web.Mvc;
-using System.Web.Security;
 using System.Threading.Tasks;
 using System.Web;
 using Marketplace.DAL.DataBaseContext;
-using Microsoft.EntityFrameworkCore;
-using System.Web.Hosting;
 
 namespace Marketplace.Controllers
 {

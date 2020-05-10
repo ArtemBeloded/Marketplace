@@ -4,9 +4,6 @@ using Marketplace.DAL.Models;
 using Marketplace.Helpers;
 using Marketplace.Models;
 using System;
-using System.IdentityModel.Claims;
-using System.Linq;
-using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 

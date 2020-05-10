@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-
 using System;
-using System.Web;
 
 namespace Marketplace.Infrastructure.Infrastructure
 {

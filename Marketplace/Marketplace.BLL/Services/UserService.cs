@@ -1,10 +1,6 @@
 ﻿using Marketplace.DAL.Models;
 using Marketplace.DAL.Repositories;
 using PagedList;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Marketplace.BLL.Services

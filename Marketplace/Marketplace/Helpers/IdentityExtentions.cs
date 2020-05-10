@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Web;
 
 namespace Marketplace.Helpers
 {
-	public static class IdentityExtentions
+    public static class IdentityExtentions
 	{
         public static T GetUserId<T>(this IIdentity identity) where T : IConvertible
         {
