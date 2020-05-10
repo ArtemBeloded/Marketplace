@@ -116,8 +116,8 @@
 
                     <div class="dropdown">
                         <select id="Role" name="Role" class="form-control">
-                            <option value="Buyer">Buyer</option>
-                            <option value="Seller">Seller</option>
+                            <option value="2">Buyer</option>
+                            <option value="1">Seller</option>
                         </select>
                     </div>
 
@@ -158,7 +158,6 @@
             data: data,
             url: "/User/SaveData",
             success: function (result) {
-                alert(result)
                 $("#successMessage").show();
                 $("#errorMessage").hide();
                 $("#RegistrationForm")[0].reset();

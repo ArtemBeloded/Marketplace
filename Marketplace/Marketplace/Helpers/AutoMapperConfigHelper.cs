@@ -34,7 +34,10 @@ namespace Marketplace.Helpers
                 cfg.CreateMap<Product, ProductCartLineVM>();
 
                 cfg.CreateMap<CredentialVM, Credential>();
-                cfg.CreateMap<RegistrationUserVM, User>();
+                cfg.CreateMap<RegistrationUserVM, User>()
+                .ForMember(x => x.RoleId, config => config.MapFrom(x => x.Role))
+                .ForMember(x => x.Role, config => config.Ignore());
+
             };
         }
         private static string ConvertHttpPostedFileBaseToString(HttpPostedFileBase httpPostedFile)

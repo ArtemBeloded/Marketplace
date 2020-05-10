@@ -1,5 +1,6 @@
 ﻿@model Marketplace.Models.ShowProductVM
 @using Newtonsoft.Json
+@using Marketplace.Helpers;
 
 <style>
     body {
@@ -59,7 +60,6 @@
     }
 
         .tab-content img {
-            
             -webkit-animation-name: opacity;
             animation-name: opacity;
             -webkit-animation-duration: .3s;
@@ -198,7 +198,7 @@
                     </div>
                     <p class="product-title">Description:</p>
                     <p class="product-description">{{product.LongDescription}}</p>
-                    @if (this.User.Identity.Name == "Buyer")
+                    @if (User.Identity.GetUserRole() == "Buyer")
                     {
                         <div class="action">
                             <button class="add-to-cart btn btn-default" @@click="addToCart(product)" type="button">Add to cart</button>

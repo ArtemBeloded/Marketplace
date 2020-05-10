@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Marketplace.DAL.DataBaseContext;
 using Microsoft.EntityFrameworkCore;
+using System.Web.Hosting;
 
 namespace Marketplace.Controllers
 {
@@ -46,7 +47,7 @@ namespace Marketplace.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == model.Username && u.Password == model.Password);
+                User user = await _userService.GetUser(model.Username, model.Password);
 
                 if (user == null)
                 {
@@ -56,7 +57,7 @@ namespace Marketplace.Controllers
                 {
                     ClaimsIdentity claim = new ClaimsIdentity("ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
                     claim.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), ClaimValueTypes.String));
-                    claim.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email, ClaimValueTypes.String));
+                    claim.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username, ClaimValueTypes.String));
                     claim.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider",
                         "OWIN Provider", ClaimValueTypes.String));
                     if (user.Role != null)
@@ -70,7 +71,7 @@ namespace Marketplace.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return View(nameof(ProductController.ListOfProduct), "Product");
+            return View(nameof(UserController.Login));
         }
 
         private bool PasswordIsCorrect(string username, string password)
@@ -138,7 +139,7 @@ namespace Marketplace.Controllers
 
         public ActionResult Logoff()
         {
-            FormsAuthentication.SignOut();
+            AuthenticationManager.SignOut();
             return RedirectToAction("Login", "User");
         }
         [HttpPost]

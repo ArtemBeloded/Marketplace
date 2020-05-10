@@ -35,7 +35,6 @@ namespace Marketplace.Controllers
                 searchText = currentSearch;
             }
             ViewBag.SearchText = searchText;
-            var role = (User as GenericIdentity).Claims.First().Value;
             var products = _productService.GetProducts(page, count, searchText);
             return View(products);
         }

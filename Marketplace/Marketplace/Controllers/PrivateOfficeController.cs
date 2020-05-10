@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Marketplace.BLL.Services;
 using Marketplace.DAL.Models;
+using Marketplace.Helpers;
 using Marketplace.Models;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,9 @@ namespace Marketplace.Controllers
 
         public ActionResult UserProfile()
         {
+
             var user = _userService.GetUser(HttpContext.User.Identity.Name);
-            if (user.Role == "Seller")
+            if (User.Identity.GetUserRole() == "Seller")
             {
                 return RedirectToAction("SellerUserProfile", user);
             }

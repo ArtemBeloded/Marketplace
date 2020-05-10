@@ -21,6 +21,6 @@ namespace Marketplace.Models
         [Required]
         public string Password { get; set; }
         [Required]
-        public string Role { get; set; }
+        public int Role { get; set; }
     }
 }

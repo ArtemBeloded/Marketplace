@@ -27,6 +27,11 @@ namespace Marketplace.BLL.Services
             return _userRepository.GetUser(username);
         }
 
+        public Task<User> GetUser(string username, string password) 
+        {
+            return _userRepository.GetUser(username, password);
+        }
+
         public IPagedList<User> GetUsers(int page, int itemsPerPage)
         {
             return _userRepository.GetUsers(page, itemsPerPage);

@@ -1,5 +1,6 @@
 ﻿using Marketplace.DAL.DataBaseContext;
 using Marketplace.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,13 @@ namespace Marketplace.DAL.Repositories
 
         public User GetUser(string username)
         {
-            var user = _marketplaceContext.Users.FirstOrDefault(x => x.Username == username);
+            var user = _marketplaceContext.Users.Include(u => u.Role).FirstOrDefault(x => x.Username == username);
+            return user;
+        }
+
+        public Task<User> GetUser(string username, string password) 
+        {
+            var user = _marketplaceContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
             return user;
         }
 
@@ -34,7 +41,7 @@ namespace Marketplace.DAL.Repositories
         public IPagedList<User> GetUsers(int page, int itemsPerPage)
         {
             var users = _marketplaceContext.Users.AsQueryable();
-            users = users.Where(x => x.Role == "Seller" | x.Role == "Buyer");
+            users = users.Where(x => x.Role.Name == "Seller" | x.Role.Name == "Buyer");
             return users.ToList().ToPagedList(page, itemsPerPage);
         }
 
