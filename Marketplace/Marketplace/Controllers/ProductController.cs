@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Marketplace.BLL.Services;
 using Marketplace.DAL.Models;
+using Marketplace.Helpers;
 using Marketplace.Models;
 using System;
+using System.IdentityModel.Claims;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 
@@ -26,12 +29,13 @@ namespace Marketplace.Controllers
         // GET: Product
         public ActionResult ListOfProduct(string currentSearch, int page = 1, int count = 10, string searchText = null)
         {
+            var t = User.Identity.GetUserRole();
             if (searchText == null) 
             {
                 searchText = currentSearch;
             }
             ViewBag.SearchText = searchText;
-            ViewBag.Categories = Enum.GetNames(typeof(CategoryVM)).ToList();
+            var role = (User as GenericIdentity).Claims.First().Value;
             var products = _productService.GetProducts(page, count, searchText);
             return View(products);
         }
@@ -69,7 +73,7 @@ namespace Marketplace.Controllers
             }
             var product = _mapper.Map<Product>(updateProduct);
             _productService.UpdateProduct(product);
-            return RedirectToAction("ListOfProduct");
+            return RedirectToAction("UserProfile", "PrivateOffice");
         }
 
         public ActionResult ProductDetail(int id) 

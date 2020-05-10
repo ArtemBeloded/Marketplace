@@ -26,8 +26,14 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="@Url.Action("ListOfProduct", "Product")">Просмотр книг</a>
-                        <a class="dropdown-item" href="@Url.Action("UserProfile", "PrivateOffice")">Личный профиль</a>
-                        <a class="dropdown-item" href="@Url.Action("ListOfUsers", "Admin")">Просмотр списка пользователя</a>
+                        @if (this.User.Identity.Name != "admin")
+                        {
+                            <a class="dropdown-item" href="@Url.Action("UserProfile", "PrivateOffice")">Личный профиль</a>
+                        }
+                        @if (this.User.Identity.Name == "admin")
+                        {
+                            <a class="dropdown-item" href="@Url.Action("ListOfUsers", "Admin")">Просмотр списка пользователя</a>
+                        }
                     </div>
                 </li>
                 <li class="nav-item">

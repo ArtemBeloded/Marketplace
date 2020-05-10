@@ -59,7 +59,7 @@
     }
 
         .tab-content img {
-            width: 100%;
+            
             -webkit-animation-name: opacity;
             animation-name: opacity;
             -webkit-animation-duration: .3s;
@@ -183,7 +183,7 @@
                 <div class="preview col-md-6">
 
                     <div class="preview-pic tab-content">
-                        <div class="tab-pane active" id="pic-1"><img v-bind:src="`data:image/png;base64,${product.Photo}`" /></div>
+                        <div class="tab-pane active" id="pic-1"><img width="250" height="250" v-bind:src="`data:image/png;base64,${product.Photo}`" /></div>
                     </div>
 
                 </div>
@@ -198,9 +198,12 @@
                     </div>
                     <p class="product-title">Description:</p>
                     <p class="product-description">{{product.LongDescription}}</p>
-                    <div class="action">
-                        <button class="add-to-cart btn btn-default" @@click="addToCart(product)" type="button">Add to cart</button>
-                    </div>
+                    @if (this.User.Identity.Name == "Buyer")
+                    {
+                        <div class="action">
+                            <button class="add-to-cart btn btn-default" @@click="addToCart(product)" type="button">Add to cart</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

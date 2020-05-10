@@ -2,14 +2,17 @@
 using Marketplace.BLL.Services;
 using Marketplace.DAL.Models;
 using Marketplace.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
+using System.Security.Claims;
+using Microsoft.Owin.Security;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Threading.Tasks;
+using System.Web;
+using Marketplace.DAL.DataBaseContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace Marketplace.Controllers
 {
@@ -17,11 +20,21 @@ namespace Marketplace.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly MarketplaceContext _context;
 
-        public UserController(IUserService userService, IMapper mapper)
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        public UserController(IUserService userService, IMapper mapper, MarketplaceContext context)
         {
             _userService = userService;
             _mapper = mapper;
+            _context = context;
         }
 
         public ActionResult Login() =>
@@ -29,21 +42,35 @@ namespace Marketplace.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(LoginUserVM model)
+        public async Task<ActionResult> Login(LoginUserVM model)
         {
-            var user = _userService.GetUser(model.Username);
-            if (user != null && PasswordIsCorrect(user.Username, model.Password))
+            if (ModelState.IsValid)
             {
-                Json("Successfull Login", JsonRequestBehavior.AllowGet);
-                FormsAuthentication.SetAuthCookie(model.Username, true);
-            }
-            else 
-            {
-                ModelState.AddModelError("LoginError", "The user name or password provided is incorrect.");
-            }
-                
+                User user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == model.Username && u.Password == model.Password);
 
-            return RedirectToAction("ListOfProduct", "Product");
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Неверный логин или пароль.");
+                }
+                else
+                {
+                    ClaimsIdentity claim = new ClaimsIdentity("ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                    claim.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), ClaimValueTypes.String));
+                    claim.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email, ClaimValueTypes.String));
+                    claim.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider",
+                        "OWIN Provider", ClaimValueTypes.String));
+                    if (user.Role != null)
+                        claim.AddClaim(new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name, ClaimValueTypes.String));
+
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View(nameof(ProductController.ListOfProduct), "Product");
         }
 
         private bool PasswordIsCorrect(string username, string password)

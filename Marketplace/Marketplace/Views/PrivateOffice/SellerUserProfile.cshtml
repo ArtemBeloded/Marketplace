@@ -46,7 +46,7 @@
         <tbody>
             <tr v-for="(item,i) in list.Products">
                 <td>
-                    <img v-bind:src="`data:image/png;base64,${item.Photo}`" />
+                    <img width="100" height="100" v-bind:src="`data:image/png;base64,${item.Photo}`" />
                 </td>
                 <td>{{item.Name}}</td>
                 <td>{{item.Author}}</td>

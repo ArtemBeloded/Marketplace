@@ -45,13 +45,28 @@
 
 <div id="product-list" class="row">
     <div class="col-4">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Действия
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="@Url.Action("ListOfProduct", "Product")">Просмотр книг</a>
-            <a class="dropdown-item" href="@Url.Action("UserProfile", "PrivateOffice")">Личный профиль</a>
-            <a class="dropdown-item" href="@Url.Action("ListOfUsers", "Admin")">Просмотр списка пользователя</a>
+        <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Жанры</a>
+        </p>
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body col-4">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="cyberpunkCB">
+                            <label class="form-check-label" for="cyberpunkCB">Cyberpunk</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="crimeCB">
+                            <label class="form-check-label" for="crimeCB">Crime</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="detectiveCB">
+                            <label class="form-check-label" for="detectiveCB">Detective</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div>
             <button class="btn btn-info" v-on:click="sortByAlphabet()">В алфавитном порядке</button>
@@ -70,13 +85,16 @@
                 <div class="container row myrow">
                     <div v-for="(item) in list" class="col-sm-3">
                         <div class="card col-xs-4" style="width:220px;" @@click.stop="goToDetail(item.Id)">
-                            <img class="card-img-top" v-bind:src="`data:image/png;base64,${item.Photo}`" />
+                            <img class="card-img-top" width="220" height="250" v-bind:src="`data:image/png;base64,${item.Photo}`" />
                             <div class="card-body">
                                 <h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
                                 <p class="card-text">{{item.ShortDescription}}</p>
-                                <p>
-                                    <input class="btn btn-info" type="submit" v-on:click.stop="addToCart(item)" value="Add to Cart" />
-                                </p>
+                                @if (true)
+                                {
+                                    <p>
+                                        <input class="btn btn-info" type="submit" v-on:click.stop="addToCart(item)" value="Add to Cart" />
+                                    </p>
+                                }
                             </div>
                         </div>
                     </div>

@@ -23,10 +23,17 @@ namespace Marketplace.DAL.Models
 
         public string Password { get; set; }
 
-        public string Role { get; set; }
+        public Role Role { get; set; }
+        public int RoleId { get; set; }
 
         public ICollection<Product> Products { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+    }
+
+    public class Role
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
