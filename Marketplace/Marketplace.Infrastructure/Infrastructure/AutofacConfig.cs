@@ -28,6 +28,8 @@ namespace Marketplace.Infrastructure.Infrastructure
             builder.RegisterModule(new AutofacWebTypesModule());
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<OrderRepository>().As<IOrderRepository>();
+            builder.RegisterType<OrderService>().As<IOrderService>();
 
             builder.RegisterType<IMapper>();
             

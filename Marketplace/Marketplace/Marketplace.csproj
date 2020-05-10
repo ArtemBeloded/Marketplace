@@ -248,6 +248,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AutoMapperConfigHelper.cs" />
+    <Compile Include="Models\BuyerUserProfileVM.cs" />
     <Compile Include="Models\CartLineVM.cs" />
     <Compile Include="Models\CategoryVM.cs" />
     <Compile Include="Models\CredentialVM.cs" />
@@ -463,6 +464,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\PrivateOffice\BuyerUserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

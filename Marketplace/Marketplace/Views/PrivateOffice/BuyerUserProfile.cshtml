@@ -1,9 +1,8 @@
-﻿@model Marketplace.Models.SellerUserProfileVM
+﻿@model Marketplace.Models.BuyerUserProfileVM
 @using Newtonsoft.Json
 
 
-
-<div id="seller-profile" class="row">
+<div id="buyer-profile" class="row">
     <form>
         <div class="form-group">
             <label for="Username">Your username</label>
@@ -11,7 +10,7 @@
         </div>
         <div class="form-group">
             <label for="NameSurname">Your Name Surname</label>
-            <input type="text" disabled class="form-control" id="NameSurname" name="NameSurname" v-bind:value="fullname" >
+            <input type="text" disabled class="form-control" id="NameSurname" name="NameSurname" v-bind:value="fullname">
         </div>
         <div class="form-group">
             <label for="Birthday">Birthday</label>
@@ -26,74 +25,34 @@
             <input type="text" disabled class="form-control" id="Role" name="Role" v-bind:value="list.User.Role">
         </div>
     </form>
-
-    <div class="col-md-2 col-sm-offset-10">
-        <input class="btn btn-success" type="submit" value="Add new Product" v-on:click="AddBook()"/>
-    </div>
+    <h1>Сделанные заказы </h1>
     <table class="table  table-bordered ">
         <thead>
             <tr>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Autor</th>
-                <th>Category</th>
-                <th>Price</th>
+                <th>Product Name</th>
                 <th>Quantity</th>
-                <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(item,i) in list.Products">
-                <td>
-                    <img v-bind:src="`data:image/png;base64,${item.Photo}`" />
-                </td>
-                <td>{{item.Name}}</td>
-                <td>{{item.Author}}</td>
-                <td>{{item.Category.toString()}}</td>
-                <td>{{item.Price}}</td>
+            <tr v-for="(item,i) in list.Orders">
+                <td>{{item.ProductName}}</td>
                 <td>{{item.Quantity}}</td>
-                <td>
-                    <input class="btn btn-info" type="submit" value="Edit" v-on:click="goToEdit(item.Id)" />
-                </td>
-                <td>
-                    <input class="btn btn-danger" type="submit" value="Delete" v-on:click="deleteUser(item, i)" />
-                </td>
             </tr>
         </tbody>
     </table>
 </div>
 
-
-
 @section scripts{
     <script src="~/lib/vue/vue.js"></script>
     <script>
         var app = new Vue({
-            el: "#seller-profile",
+            el: "#buyer-profile",
             data: {
                 list: @Html.Raw(@JsonConvert.SerializeObject(Model))
             },
             computed: {
                 fullname() {
                     return this.list.User.Name + ' ' + this.list.User.Surname;
-                }
-            },
-            methods: {
-                deleteUser(item, index) {
-                    var isConfirmed = confirm(`Confirm delete product ${item.Name}?`);
-                    if (isConfirmed) {
-                        fetch(`/Product/DeleteProduct/${item.Id}`, { method: 'POST' })
-                            .then((response) => {
-                                this.list.Products.splice(index, 1);
-                            });
-                    }
-                },
-                goToEdit(id) {
-                    window.location.href = `/Product/EditProduct/${id}`;
-                },
-                AddBook() {
-                    window.location.href = `/Product/AddBook`;
                 }
             },
             filters: {

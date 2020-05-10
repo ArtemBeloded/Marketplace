@@ -32,6 +32,7 @@ namespace Marketplace.DAL.DataBaseContext
             var converter = new EnumToNumberConverter<Category, int>();
             modelBuilder.Entity<Product>().Property(x => x.Category).HasConversion(converter);
             modelBuilder.Entity<User>().HasMany(x => x.Products).WithOne(x => x.Owner).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<User>().HasMany(x => x.Orders).WithOne(x => x.Buyer).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {

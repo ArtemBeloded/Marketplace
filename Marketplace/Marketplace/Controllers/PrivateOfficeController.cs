@@ -15,12 +15,14 @@ namespace Marketplace.Controllers
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly IOrderService _orderService;
 
-        public PrivateOfficeController(IProductService productService, IMapper mapper, IUserService userService)
+        public PrivateOfficeController(IProductService productService, IMapper mapper, IUserService userService, IOrderService orderService)
         {
             _productService = productService;
             _mapper = mapper;
             _userService = userService;
+            _orderService = orderService;
         }
 
         public ActionResult UserProfile()
@@ -32,10 +34,8 @@ namespace Marketplace.Controllers
             }
             else 
             {
-
+                return RedirectToAction("BuyerUserProfile", user);
             }
-
-            return View();
         }
 
         public ActionResult SellerUserProfile(User user) 
@@ -47,6 +47,17 @@ namespace Marketplace.Controllers
                 Products = products
             };
             return View(sellerUserProfileVM);
+        }
+
+        public ActionResult BuyerUserProfile(User user) 
+        {
+            var orders = _orderService.GetOrders(user.Id);
+            BuyerUserProfileVM buyerUserProfileVM = new BuyerUserProfileVM()
+            {
+                User = user,
+                Orders = orders
+            };
+            return View(buyerUserProfileVM);
         }
 
     }

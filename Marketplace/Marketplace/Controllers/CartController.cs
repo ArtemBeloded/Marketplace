@@ -13,13 +13,18 @@ namespace Marketplace.Controllers
     public class CartController : Controller
     {
         private ICartService _cartService;
-        private IProductService _productService;
+        private IUserService _userService;
+        private IOrderService _orderService;
         private readonly IMapper _mapper;
-        public CartController(ICartService cartService, IProductService productService, IMapper mapper)
+
+
+
+        public CartController(ICartService cartService, IMapper mapper, IUserService userService, IOrderService orderService)
         {
             _cartService = cartService;
-            _productService = productService;
             _mapper = mapper;
+            _userService = userService;
+            _orderService = orderService;
         }
 
         public ActionResult CartShow()
@@ -44,8 +49,28 @@ namespace Marketplace.Controllers
 
         public ActionResult Purchase() 
         {
+            var orders = CreateListOfOrders();
+            _orderService.AddOrder(orders);
             _cartService.Clear();
             return RedirectToAction("ListOfProduct", "Product");
+        }
+
+        public IEnumerable<Order> CreateListOfOrders() 
+        {
+            List<Order> orders = new List<Order>();
+            var cart = _cartService.GetCart();
+            var currentUser = _userService.GetUser(HttpContext.User.Identity.Name);
+            foreach (var item in cart)
+            {
+                var order = new Order()
+                {
+                    ProductName = item.Product.Name,
+                    Quantity = item.Quantity,
+                    UserId = currentUser.Id
+                };
+                orders.Add(order);
+            }
+            return orders;
         }
 
 
