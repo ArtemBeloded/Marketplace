@@ -3,6 +3,7 @@ using Marketplace.BLL.Services;
 using Marketplace.DAL.Models;
 using Marketplace.Models;
 using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -30,8 +31,8 @@ namespace Marketplace.Controllers
                 searchText = currentSearch;
             }
             ViewBag.SearchText = searchText;
+            ViewBag.Categories = Enum.GetNames(typeof(CategoryVM)).ToList();
             var products = _productService.GetProducts(page, count, searchText);
-
             return View(products);
         }
 
@@ -47,7 +48,7 @@ namespace Marketplace.Controllers
             var currentUser = _userService.GetUser(HttpContext.User.Identity.Name);
             product.UserId = currentUser.Id;
             _productService.AddProduct(product);
-            return RedirectToAction("ListOfProduct");
+            return RedirectToAction("UserProfile", "PrivateOffice");
         }
 
         public ActionResult EditProduct(int id)
@@ -77,7 +78,7 @@ namespace Marketplace.Controllers
             return View(product);
         }
 
-
+        [HttpPost]
         public ActionResult DeleteProduct(int id)
         {
             _productService.RemoveProduct(id);

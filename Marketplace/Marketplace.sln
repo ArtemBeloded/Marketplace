@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.BLL", "Marketpl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Infrastructure", "Marketplace.Infrastructure\Marketplace.Infrastructure.csproj", "{70F27A4A-7936-403C-B511-37ACB97FECE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.DAL", "Test\Marketplace.DAL.csproj", "{5ABC7C4E-0DAD-4A72-AB3C-104AA4A02CD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.DAL", "Marketplace.DAL\Marketplace.DAL.csproj", "{5ABC7C4E-0DAD-4A72-AB3C-104AA4A02CD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

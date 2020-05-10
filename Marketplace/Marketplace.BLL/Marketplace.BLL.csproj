@@ -59,7 +59,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Test\Marketplace.DAL.csproj">
+    <ProjectReference Include="..\Marketplace.DAL\Marketplace.DAL.csproj">
       <Project>{5ABC7C4E-0DAD-4A72-AB3C-104AA4A02CD7}</Project>
       <Name>Marketplace.DAL</Name>
     </ProjectReference>

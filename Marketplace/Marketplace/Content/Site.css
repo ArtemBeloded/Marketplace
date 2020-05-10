@@ -7,6 +7,9 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +24,9 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.myrow {
+    margin-left: 0;
+    margin-right: 0;
 }

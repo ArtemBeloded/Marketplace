@@ -26,5 +26,7 @@ namespace Marketplace.DAL.Models
         public string Photo { get; set; }
 
         public int UserId { get; set; }
+
+        public User Owner { get; set; }
     }
 }

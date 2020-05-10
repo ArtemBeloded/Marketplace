@@ -30,6 +30,13 @@ namespace Marketplace.DAL.Repositories
             return products.ToPagedList(page, itemsPerPage);
         }
 
+        public IEnumerable<Product> GetProducts(int userId) 
+        {
+            var products = _marketplaceContext.Products.AsQueryable();
+            products = products.Where(x => x.UserId == userId);
+            return products.ToList();
+        }
+
         public Product GetProduct(int id)
         {
 

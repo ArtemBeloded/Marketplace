@@ -115,9 +115,9 @@ namespace Marketplace.Controllers
             return RedirectToAction("Login", "User");
         }
         [HttpPost]
-        public ActionResult RemoveUser(string username) 
+        public ActionResult RemoveUser(string id) 
         {
-            _userService.RemoveUser(username);
+            _userService.RemoveUser(id);
             return RedirectToAction("ListOfUsers");
         }
 

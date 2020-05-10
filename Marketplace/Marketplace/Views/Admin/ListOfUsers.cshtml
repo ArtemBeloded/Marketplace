@@ -72,7 +72,7 @@
                 deleteUser(user, index) {
                     var isConfirmed = confirm(`Confirm delete user ${user.Username}?`);
                     if (isConfirmed) {
-                        fetch(`User/RemoveUser/${user.Username}`, { method: 'POST' })
+                        fetch(`/User/RemoveUser/${user.Username}`, { method: 'POST' })
                         .then((response) => {
                             this.list.splice(index, 1);
                         });

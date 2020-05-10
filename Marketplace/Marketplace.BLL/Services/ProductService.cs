@@ -32,6 +32,11 @@ namespace Marketplace.BLL.Services
             return _productRepository.GetProducts(page, itemsPerPage, searchText);
         }
 
+        public IEnumerable<Product> GetProducts(int userId) 
+        {
+            return _productRepository.GetProducts(userId);
+        }
+
         public bool RemoveProduct(int id)
         {
             return _productRepository.RemoveProduct(id);

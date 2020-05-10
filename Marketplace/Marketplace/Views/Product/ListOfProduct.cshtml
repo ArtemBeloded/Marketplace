@@ -3,10 +3,13 @@
 @using PagedList.Mvc
 @using Marketplace.Controllers
 
+
+
 <style>
 
     @@import url('../../Content/PagedList.css');
-.sidenav {
+
+    .sidenav {
         height: 100%;
         width: 160px;
         position: fixed;
@@ -37,21 +40,18 @@
     .card {
         cursor: pointer;
     }
-
-
 </style>
-<div id="product-list">
-    <div class="sidenav" id="sidenav">
-        <p>Сортировка/группировка</p>
-        <p>Жанр</p>
-        <div>
-            @Html.ActionLink("Ужастик", "AddProduct", "Product", new { @class = "btn btn-success" })
-        </div>
-        <div>
-            @Html.ActionLink("Детектив", "AddProduct", "Product", new { @class = "btn btn-success" })
-        </div>
-        <div>
-            @Html.ActionLink("Мелодрамы", "AddProduct", "Product", new { @class = "btn btn-success" })
+
+
+<div id="product-list" class="row">
+    <div class="col-4">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Действия
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="@Url.Action("ListOfProduct", "Product")">Просмотр книг</a>
+            <a class="dropdown-item" href="@Url.Action("UserProfile", "PrivateOffice")">Личный профиль</a>
+            <a class="dropdown-item" href="@Url.Action("ListOfUsers", "Admin")">Просмотр списка пользователя</a>
         </div>
         <div>
             <button class="btn btn-info" v-on:click="sortByAlphabet()">В алфавитном порядке</button>
@@ -64,20 +64,10 @@
         </div>
     </div>
 
-
-    <p>asd</p>
-    <p>asd</p>
-    <p>asd</p>
-    <p>asd</p>
-    <p>asd</p>
-    <p>asd</p>
-    <p>asd</p>
-
-
-    <div class="main">
+    <div class="main col-8" style="margin: auto">
         <div>
-            <div class="row">
-                <div class="container row">
+            <div class="row ">
+                <div class="container row myrow">
                     <div v-for="(item) in list" class="col-sm-3">
                         <div class="card col-xs-4" style="width:220px;" @@click.stop="goToDetail(item.Id)">
                             <img class="card-img-top" v-bind:src="`data:image/png;base64,${item.Photo}`" />
@@ -95,20 +85,18 @@
         </div>
         <br />
         <div class="btn-group">
-            @Html.PagedListPager(Model, page => Url.Action(nameof(ProductController.ListOfProduct), new {page, currentSearch = ViewBag.SearchText}))
+            @Html.PagedListPager(Model, page => Url.Action(nameof(ProductController.ListOfProduct), new { page, currentSearch = ViewBag.SearchText }))
         </div>
     </div>
 </div>
 @section scripts{
+
     <script src="~/lib/vue/vue.js"></script>
     <script>
         var app = new Vue({
             el: "#product-list",
             data: {
                 list: @Html.Raw(@JsonConvert.SerializeObject(Model))
-            },
-            created() {
-                console.log(list)
             },
             methods: {
                 addToCart(product) {

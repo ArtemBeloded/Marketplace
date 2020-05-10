@@ -22,7 +22,7 @@ namespace Marketplace.Helpers
 
                 cfg.CreateMap<Product, ShowProductVM>()
                 .ForMember(t => t.LongDescription, config => config.MapFrom(dest => dest.Description))
-                .ForMember(t => t.ShortDescription, config => config.MapFrom(dest => dest.Description.Substring(0, 20)));
+                .ForMember(t => t.ShortDescription, config => config.MapFrom(dest => dest.Description.Substring(0, 10)));
                 cfg.CreateMap<ShowProductVM, Product>()
                 .ForMember(t => t.Description, config => config.MapFrom(dest => dest.LongDescription));
 
