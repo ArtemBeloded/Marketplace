@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Marketplace.DAL.Models;
+using System.Collections.Generic;
 
 namespace Marketplace.DAL.DataBaseContext
 {
@@ -30,10 +31,21 @@ namespace Marketplace.DAL.DataBaseContext
             modelBuilder.Entity<Product>().Property(x => x.Category).HasConversion(converter);
             modelBuilder.Entity<User>().HasMany(x => x.Products).WithOne(x => x.Owner).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<User>().HasMany(x => x.Orders).WithOne(x => x.Buyer).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Role>().HasData(SeedRoles());
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
             optionsBuilder.UseSqlServer(_connectionString);
+        }
+
+        private List<Role> SeedRoles() 
+        {
+            Role seller = new Role() { Id = 1, Name = "Seller" };
+            Role buyer = new Role() { Id = 2, Name = "Buyer" };
+            Role admin = new Role() { Id = 3, Name = "Admin" };
+            List<Role> roles = new List<Role>() { seller, buyer, admin };
+
+            return roles;
         }
     }
 }

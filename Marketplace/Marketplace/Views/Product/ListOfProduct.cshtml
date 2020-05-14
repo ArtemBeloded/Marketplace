@@ -4,9 +4,8 @@
 @using Marketplace.Controllers
 @using Marketplace.Helpers;
 
-
-
 <style>
+
 
     @@import url('../../Content/PagedList.css');
 
@@ -41,52 +40,127 @@
     .card {
         cursor: pointer;
     }
+
+    .card-body {
+        min-height: 100px;
+    }
+
+    .list {
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+
+        .list .btn-info {
+            height: 40px;
+            border-radius: 50px;
+            background: transparent;
+            padding: 0px 50px;
+            border: 2px solid #1f222e;
+            color: #1f222e;
+            text-transform: uppercase;
+            font-size: 11px;
+            transition-property: background, color;
+            transition-duration: .2s;
+            display: inline-block;
+            width: 250px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+            .list .btn-info:hover {
+                background: #1f222e;
+                color: #ffffff;
+            }
+
+        .list .card {
+            width:;
+            border: 4px solid #1f222e;
+            border-radius: 25px;
+            overflow: overlay;
+            color: #DC6180;
+            background: #1f222e;
+            margin-bottom: 15px;
+        }
+
+            .list .card img {
+                object-fit: cover;
+                border-bottom: 4px solid #1f222e;
+            }
+
+        .list .row-cols-1 {
+            margin-left: 100px;
+        }
+
+
+        .list .card .btn-info {
+            border-radius: 50px;
+            background: transparent;
+            padding: 0px 50px;
+            border: 2px solid #DC6180;
+            color: #DC6180;
+            text-transform: uppercase;
+            font-size: 11px;
+            transition-property: background, color;
+            transition-duration: .2s;
+            display: inline-block;
+            width: auto;
+            cursor: pointer;
+            height: 30px;
+            margin-bottom: 1px;
+            margin-top: 20px;
+        }
+
+            .list .card .btn-info:hover {
+                background: #DC6180;
+                color: #ffffff;
+            }
 </style>
 
+<div class="list">
+    <div id="product-list" class="row">
+        <div class="row-cols-1">
+            <div>
+                <button class="btn btn-info" v-on:click="sortByAlphabet()">В алфавитном порядке</button>
+            </div>
+            <div>
+                <button class="btn btn-info" v-on:click="sortByPriceAsc()">По возрастанию цены</button>
+            </div>
+            <div>
+                <button class="btn btn-info" v-on:click="sortByPriceDes()">По убыванию цены</button>
+            </div>
+        </div>
 
-<div id="product-list" class="row">
-    <div class="col-4">
-        <div>
-            <button class="btn btn-info" v-on:click="sortByAlphabet()">В алфавитном порядке</button>
-        </div>
-        <div>
-            <button class="btn btn-info" v-on:click="sortByPriceAsc()">По возрастанию цены</button>
-        </div>
-        <div>
-            <button class="btn btn-info" v-on:click="sortByPriceDes()">По убыванию цены</button>
-        </div>
-    </div>
-
-    <div class="main col-8" style="margin: auto">
-        <div>
-            <div class="row ">
-                <div class="container row myrow">
-                    <div v-for="(item) in list" class="col-sm-3">
-                        <div class="card col-xs-4" style="width:220px;" @@click.stop="goToDetail(item.Id)">
-                            <img class="card-img-top" width="220" height="250" v-bind:src="`data:image/png;base64,${item.Photo}`" />
-                            <div class="card-body">
-                                <h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
-                                <p class="card-text">{{item.ShortDescription}}</p>
-                                @if (User.Identity.GetUserRole() == "Buyer")
-                                {
-                                    <p>
-                                        <input class="btn btn-info" type="submit" v-on:click.stop="addToCart(item)" value="Add to Cart" />
-                                    </p>
-                                }
+        <div class="main col-8" style="margin: auto">
+            <div>
+                <div class="row ">
+                    <div class="container row myrow">
+                        <div v-for="(item) in list" class="col-sm-3">
+                            <div class="card col-xs-4" style="width:220px;" @@click.stop="goToDetail(item.Id)">
+                                <img class="card-img-top" width="220" height="250" v-bind:src="`data:image/png;base64,${item.Photo}`" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
+                                    <p class="card-text">{{item.ShortDescription}}</p>
+                                    @if (User.Identity.GetUserRole() == "Buyer")
+                                    {
+                                        <p>
+                                            <input class="btn btn-info" type="submit" v-on:click.stop="addToCart(item)" value="Add to Cart" />
+                                        </p>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <br />
-        <div class="btn-group">
-            @Html.PagedListPager(Model, page => Url.Action(nameof(ProductController.ListOfProduct), new { page, currentSearch = ViewBag.SearchText }))
+            <br />
+            <div class="btn-group page">
+                @Html.PagedListPager(Model, page => Url.Action(nameof(ProductController.ListOfProduct), new { page, currentSearch = ViewBag.SearchText }))
+            </div>
         </div>
     </div>
 </div>
-@section scripts{
 
+@section scripts{
     <script src="~/lib/vue/vue.js"></script>
     <script>
         var app = new Vue({

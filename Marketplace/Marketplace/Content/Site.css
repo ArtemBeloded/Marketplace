@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
 }
 
@@ -29,4 +28,84 @@ textarea {
 .myrow {
     margin-left: 0;
     margin-right: 0;
+}
+
+.navbar {
+    background: #1f222e;
+}
+
+.layout-wrapper {
+    background: linear-gradient(135deg, #EA5C54 0%,#bb6dec 100%);
+}
+
+    .layout-wrapper .btn-outline-secondary {
+        color: #DC6180;
+        border-radius: 50px;
+        border: 2px solid #DC6180;
+    }
+
+    .layout-wrapper .input-group > .form-control:not(:first-child),
+    .input-group > .custom-select:not(:first-child) {
+        border-radius: 50px;
+        border: 2px solid #DC6180;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .layout-wrapper .navbar-light .navbar-nav .nav-link {
+        color: #DC6180;
+    }
+
+    .layout-wrapper a {
+        color: #DC6180;
+        font-size: 17px;
+    }
+
+    .layout-wrapper .btn-secondary, .btn-success {
+        border-radius: 50px;
+        background: transparent;
+        padding: 10px 50px;
+        border: 2px solid #DC6180;
+        color: #DC6180;
+        text-transform: uppercase;
+        font-size: 11px;
+        transition-property: background, color;
+        transition-duration: .2s;
+        display: inline-block;
+        width: auto;
+        cursor: pointer;
+    }
+
+        .cart-wrapper .btn-secondary:hover, .btn-success:hover {
+            background: #DC6180;
+            color: #ffffff;
+            border-color: #DC6180;
+        }
+
+.cart-wrapper .btn-info {
+    border-radius: 50px;
+    background: transparent;
+    padding: 8px 50px;
+    border: 2px solid #DC6180;
+    color: #DC6180;
+    text-transform: uppercase;
+    font-size: 14px;
+    transition-property: background, color;
+    transition-duration: .2s;
+    display: inline-block;
+    width: auto;
+    cursor: pointer;
+    height: 40px;
+}
+
+    .cart-wrapper .btn-info:hover {
+        background: #DC6180;
+        color: #ffffff;
+    }
+
+.cart-wrapper .modal-content {
+    background: inherit;
+    border-radius: 25px;
+    background-color: #1f222e;
+    color: #afb1be;
 }

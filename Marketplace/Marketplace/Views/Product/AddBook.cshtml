@@ -1,39 +1,128 @@
 ﻿@model Marketplace.Models.CreateProductVM
 
+<style>
+    .add-form-wrapper .container {
+        margin-top: 20px;
+        text-align: -webkit-center;
+        width: fit-content;
+        margin-top: 20px;
+    }
+
+    .add-form-wrapper {
+        width: max-content;
+        padding: 1px;
+        background: linear-gradient(45deg, #35394a 0%, #1f222e 100%);
+        color: #afb1be;
+        border-radius: 25px;
+        font-family: 'Gudea', sans-serif;
+        margin-bottom: 10px;
+        margin-top: 20px;
+    }
+
+    .layout-wrapper .body-content {
+        text-align: -webkit-center;
+    }
+
+    .add-form-wrapper .form-group.button {
+        border-radius: 50px;
+        background: transparent;
+        padding: 0px 50px;
+        border: 2px solid #DC6180;
+        color: #DC6180;
+        text-transform: uppercase;
+        font-size: 11px;
+        transition-property: background, color;
+        transition-duration: .2s;
+        display: inline-block;
+        width: auto;
+        cursor: pointer;
+        height: 30px;
+        margin-bottom: 20px;
+    }
+
+        .add-form-wrapper .form-group.button input {
+            width: 70px;
+            margin: 2px;
+            border: none;
+            color: #DC6180;
+            font-size: 14px;
+            background: unset;
+        }
+
+        .add-form-wrapper .form-group.button:hover {
+            background: #DC6180;
+            color: #ffffff;
+        }
+
+            .add-form-wrapper .form-group.button:hover input {
+                color: #ffffff;
+            }
+
+    .add-form-wrapper label {
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .add-form-wrapper input, select, textarea {
+        max-width: 480px;
+    }
+
+
+    .add-form-wrapper .editor-field {
+        display: table-cell;
+        margin-left: 81px;
+    }
+</style>
+
 @using (Html.BeginForm("SaveNewBook", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-<form>
-    <div class="form-group">
-        <label for="inputname">Enter book name</label>
-        <input type="text" class="form-control" id="inputname" name="Name" value="" placeholder="Book name">
-    </div>
-    <div class="form-group">
-        <label for="inputauthor">Enter Author</label>
-        <input type="text" class="form-control" id="inputauthor" name="Author" value="" placeholder="Author name">
-    </div>
-    <div class="form-group">
-        <label for="inputcategoryid">Choose category</label>
-        @Html.EnumDropDownListFor(Model => Model.Category, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label for="inputprice">Input price per one book</label>
-        <input type="text" class="form-control" id="inputprice" name="Price" value="" placeholder="Price">
-    </div>
-    <div class="form-group">
-        <label for="inputdescription">Enter description</label>
-        <textarea id="inputdescription" class="form-control" name="Description" rows="4" cols="50"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="inputquantity">Input quantity of book</label>
-        <input type="text" class="form-control" id="inputquantity" name="Quantity" value="" placeholder="Quantity">
-    </div>
-    <div class="editor-field">
-        <label for="inputphoto">Choose photo</label>
-        <input type="file" name="Photo" id="inputphoto" accept=".jpg, .jpeg, .png" />
-    </div>
-    <br>
-    <div class="form-group">
-        <input type="submit" value="Submit" />
-    </div>
-</form>
+    <form>
+        <div class="add-form-wrapper">
+            <div class="container">
+                <div class="form-group">
+                    <label for="inputname">Name</label>
+                    <input type="text" class="form-control" id="inputname" name="Name" value="" placeholder="Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputauthor">Author</label>
+                    <input type="text" class="form-control" id="inputauthor" name="Author" value="" placeholder="Author" required
+                           pattern="^[a-zA-Z\s]+$">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputcategoryid">Category</label>
+                    @Html.EnumDropDownListFor(Model => Model.Category, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label for="inputprice">Price</label>
+                    <input type="number" class="form-control" id="inputprice" name="Price" value="" placeholder="Price" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputdescription">Description</label>
+                    <textarea id="inputdescription" class="form-control" name="Description" rows="4" cols="50"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputquantity">Quantity</label>
+                    <input type="number" class="form-control" id="inputquantity" name="Quantity" value="" placeholder="Quantity" required>
+                </div>
+
+                <div class="editor-field">
+                    <div class="form-group button">
+                        <label for="inputphoto">Photo</label>
+                        <input type="file" name="Photo" id="inputphoto" accept=".jpg, .jpeg, .png" />
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-group button">
+                    <input type="submit" value="ADD" />
+                </div>
+
+            </div>
+        </div>
+    </form>
 }

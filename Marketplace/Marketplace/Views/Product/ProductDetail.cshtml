@@ -3,13 +3,15 @@
 @using Marketplace.Helpers;
 
 <style>
+
     body {
         font-family: 'open sans';
         overflow-x: hidden;
     }
 
     img {
-        max-width: 100%;
+        width: auto;
+        /*max-width: 100%;*/
     }
 
     .preview {
@@ -173,37 +175,85 @@
     .tooltip-inner {
         padding: 1.3em;
     }
+
+    .product-detail-wrapper .card {
+        border: 3px solid #1f222e;
+        border-radius: 50px;
+        color: #DC6180;
+        background: #1f222e;
+    }
+
+        .product-detail-wrapper .card img {
+            border: 3px solid #1f222e;
+            border-radius: 50px;
+        }
+
+        .product-detail-wrapper .card .details {
+            justify-content: center;
+            align-items: center;
+            font-size: 27px;
+        }
+
+        .product-detail-wrapper .card h3 {
+            font-size: larger;
+        }
+
+        .product-detail-wrapper .card a {
+            margin-right: 10px;
+        }
+
+    .product-detail-wrapper .btn-info {
+        height: 40px;
+        margin-top: 7px;
+        border-radius: 50px;
+        background: transparent;
+        padding: 0px 50px;
+        border: 2px solid #1f222e;
+        color: #1f222e;
+        text-transform: uppercase;
+        font-size: 11px;
+        transition-property: background, color;
+        transition-duration: .2s;
+        display: inline-block;
+        width: auto;
+        cursor: pointer;
+    }
+
+        .product-detail-wrapper .btn-info:hover {
+            background: #1f222e;
+            color: #ffffff;
+        }
 </style>
 
-
-<div class="container">
-    <div class="card" id="product-detail">
-        <div class="container-fliud">
-            <div class="wrapper row">
-                <div class="preview col-md-6">
-
-                    <div class="preview-pic tab-content">
-                        <div class="tab-pane active" id="pic-1"><img width="250" height="250" v-bind:src="`data:image/png;base64,${product.Photo}`" /></div>
-                    </div>
-
-                </div>
-                <div class="details col-md-6">
-                    <h3 class="product-title">{{product.Name}}</h3>
-
-                    <div class="row">
-                        <p class="vote">Current price: <strong>{{product.Price}}грн.</strong>  Quantity: <strong>{{product.Quantity}}</strong></p>
-                    </div>
-                    <div class="row">
-                        <p class="vote">Author: <strong>{{product.Author}}</strong>  Category: <strong>{{product.Category.toString()}}</strong></p>
-                    </div>
-                    <p class="product-title">Description:</p>
-                    <p class="product-description">{{product.LongDescription}}</p>
-                    @if (User.Identity.GetUserRole() == "Buyer")
-                    {
-                        <div class="action">
-                            <button class="add-to-cart btn btn-default" @@click="addToCart(product)" type="button">Add to cart</button>
+<div class="product-detail-wrapper">
+    <div class="container">
+        <div class="card" id="product-detail">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-6">
+                        <div class="preview-pic tab-content">
+                            <div class="tab-pane active" id="pic-1"><img width="250" height="250" v-bind:src="`data:image/png;base64,${product.Photo}`" /></div>
                         </div>
-                    }
+
+                    </div>
+                    <div class="details col-md-6">
+                        <h3 class="product-title">{{product.Name}}</h3>
+
+                        <div class="row">
+                            <p class="vote">Price: <strong>{{product.Price}}грн.</strong>  @*Quantity: <strong>{{product.Quantity}}</strong>*@</p>
+                        </div>
+                        <div class="row">
+                            <p class="vote">Author: <strong>{{product.Author}}</strong> <a></a> Category: <strong>{{product.Category.toString()}}</strong></p>
+                        </div>
+                        <p class="product-title">Description:</p>
+                        <p class="product-description">{{product.LongDescription}}</p>
+                        @if (User.Identity.GetUserRole() == "Buyer")
+                        {
+                            <div class="action">
+                                <button class="add-to-cart btn btn-default btn-info" @@click="addToCart(product)" type="button">Add to cart</button>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

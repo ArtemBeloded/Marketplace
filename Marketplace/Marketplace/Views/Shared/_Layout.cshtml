@@ -1,5 +1,6 @@
 ﻿@using Marketplace.Helpers;
 <!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="utf-8" />
@@ -11,73 +12,75 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="@Url.Action("ListOfProduct", "Product")">
-            <img src="~/Resources/Logo.jpg" alt="Logo" style="width:100px;">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="layout-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="@Url.Action("ListOfProduct", "Product")">
+                <img src="~/Resources/Logo.jpg" alt="Logo" style="width:100px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Действия
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="@Url.Action("ListOfProduct", "Product")">Просмотр книг</a>
-                        @if (User.Identity.GetUserRole() != "Admin")
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Действия
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="@Url.Action("ListOfProduct", "Product")">Просмотр книг</a>
+                            @if (User.Identity.GetUserRole() != "Admin")
+                            {
+                                <a class="dropdown-item" href="@Url.Action("UserProfile", "PrivateOffice")">Личный профиль</a>
+                            }
+                            @if (User.Identity.GetUserRole() == "Admin")
+                            {
+                                <a class="dropdown-item" href="@Url.Action("ListOfUsers", "Admin")">Просмотр списка пользователя</a>
+                            }
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        @using (Html.BeginForm("ListOfProduct", "Product"))
                         {
-                            <a class="dropdown-item" href="@Url.Action("UserProfile", "PrivateOffice")">Личный профиль</a>
-                        }
-                        @if (User.Identity.GetUserRole() == "Admin")
-                        {
-                            <a class="dropdown-item" href="@Url.Action("ListOfUsers", "Admin")">Просмотр списка пользователя</a>
-                        }
-                    </div>
-                </li>
-                <li class="nav-item">
-                    @using (Html.BeginForm("ListOfProduct", "Product"))
-                    {
-                        <form class="form-inline my-2 my-lg-0">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-outline-secondary" type="submit" id="button-addon1"><i class="fas fa-search"></i></button>
+                            <form class="form-inline my-2 my-lg-0">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-outline-secondary" type="submit" id="button-addon1"><i class="fas fa-search"></i></button>
+                                    </div>
+                                    @Html.TextBox("searchText", ViewBag.SearchText as string, new { @class = "form-control mr-sm-2", placeholder = "Search" })
                                 </div>
-                                @Html.TextBox("searchText", ViewBag.SearchText as string, new { @class = "form-control mr-sm-2", placeholder = "Author or title of book" })
-                            </div>
-                        </form>
-                    }
-                </li>
-                <li class="nav-item">
-                    <a class="navbar-brand" href="@Url.Action("CartShow", "Cart")">
-                        <img src="~/Resources/CartIcon.png" alt="Logo" style="width:50px;height:50px;">
-                    </a>
-                </li>
-            </ul>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a class="nav-link" href="@Url.Action("Logoff", "User")"><span class="glyphicon glyphicon-user"></span> Sign out</a>
-            }
-            else
-            {
-                <a class="nav-link" href="@Url.Action("Login", "User")"><span class="glyphicon glyphicon-user"></span> Sign in</a>
-            }
+                            </form>
+                        }
+                    </li>
+                    <li class="nav-item">
+                        <a class="navbar-brand" href="@Url.Action("CartShow", "Cart")">
+                            <img src="~/Resources/CartIcon.png" alt="Logo" style="width:50px;height:50px;">
+                        </a>
+                    </li>
+                </ul>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="nav-link" href="@Url.Action("Logoff", "User")"><span class="glyphicon glyphicon-user"></span> Sign out</a>
+                }
+                else
+                {
+                    <a class="nav-link" href="@Url.Action("Login", "User")"><span class="glyphicon glyphicon-user"></span> Sign in</a>
+                }
 
 
+            </div>
+        </nav>
+
+        <div class="body-content" style="top: 200px;">
+            @RenderBody()
+            <hr />
+            <footer></footer>
         </div>
-    </nav>
 
-    <div class="body-content" style="top: 200px;">
-        @RenderBody()
-        <hr />
-        <footer>
-        </footer>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </body>
+
 </html>

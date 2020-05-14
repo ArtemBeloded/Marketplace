@@ -51,7 +51,6 @@ namespace Marketplace.DAL.Repositories
 
         public void SaveData(User user, Credential credential)
         {
-
             _marketplaceContext.Users.Add(user);
             _marketplaceContext.Credentials.Add(credential);
             _marketplaceContext.SaveChanges();
