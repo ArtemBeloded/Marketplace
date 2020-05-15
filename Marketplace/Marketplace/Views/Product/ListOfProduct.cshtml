@@ -139,7 +139,6 @@
                                 <img class="card-img-top" width="220" height="250" v-bind:src="`data:image/png;base64,${item.Photo}`" />
                                 <div class="card-body">
                                     <h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
-                                    <p class="card-text">{{item.ShortDescription}}</p>
                                     @if (User.Identity.GetUserRole() == "Buyer")
                                     {
                                         <p>

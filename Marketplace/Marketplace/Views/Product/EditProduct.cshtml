@@ -99,7 +99,7 @@
                 <div class="form-group">
                     <label for="inputauthor">Author</label>
                     <input type="text" class="form-control" id="inputauthor" name="Author" value="@Model.Author"
-                           pattern="^[a-zA-Z\s]+$">
+                           pattern="^[a-zA-Zа-яА-Я\s]+$">
                 </div>
 
                 <div class="form-group">
@@ -121,7 +121,7 @@
 
                 <div class="form-group">
                     <label for="inputquantity">Quantity</label>
-                    <input type="text" class="form-control" id="inputquantity" name="Quantity" value="@Model.Quantity"
+                    <input type="number" class="form-control" id="inputquantity" name="Quantity" value="@Model.Quantity"
                            pattern="^[0-9]+$">
                 </div>
 

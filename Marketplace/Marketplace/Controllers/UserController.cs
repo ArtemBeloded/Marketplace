@@ -8,7 +8,6 @@ using System.Text;
 using System.Security.Claims;
 using Microsoft.Owin.Security;
 using System.Web.Mvc;
-using System.Threading.Tasks;
 using System.Web;
 using Marketplace.DAL.DataBaseContext;
 
@@ -40,13 +39,13 @@ namespace Marketplace.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> Login(LoginUserVM model)
+        public ActionResult Login(LoginUserVM model)
         {
             if (ModelState.IsValid)
             {
-                User user = await _userService.GetUser(model.Username, model.Password);
+                User user = _userService.GetUser(model.Username);
 
-                if (user == null)
+                if (user == null || !PasswordIsCorrect(user.Username, user.Password))
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
                 }
@@ -65,7 +64,7 @@ namespace Marketplace.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ListOfProduct", "Product");
                 }
             }
             return View(nameof(UserController.Login));

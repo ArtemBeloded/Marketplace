@@ -1,7 +1,6 @@
 ﻿using Marketplace.DAL.Models;
 using Marketplace.DAL.Repositories;
 using PagedList;
-using System.Threading.Tasks;
 
 namespace Marketplace.BLL.Services
 {
@@ -21,11 +20,6 @@ namespace Marketplace.BLL.Services
         public User GetUser(string username)
         {
             return _userRepository.GetUser(username);
-        }
-
-        public Task<User> GetUser(string username, string password) 
-        {
-            return _userRepository.GetUser(username, password);
         }
 
         public IPagedList<User> GetUsers(int page, int itemsPerPage)

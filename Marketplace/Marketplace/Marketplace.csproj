@@ -256,7 +256,6 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PrivateOfficeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -332,7 +331,6 @@
     <Content Include="lib\Vue\vue.js" />
     <Content Include="lib\Vue\vue.min.js" />
     <Content Include="Resources\CartIcon.png" />
-    <Content Include="Resources\CompareIcon.png" />
     <Content Include="Resources\Logo.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -463,7 +461,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Product\ListOfProduct.cshtml" />
     <Content Include="Views\Product\AddBook.cshtml" />
     <Content Include="Views\Product\EditProduct.cshtml" />

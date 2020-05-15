@@ -32,6 +32,8 @@ namespace Marketplace.DAL.DataBaseContext
             modelBuilder.Entity<User>().HasMany(x => x.Products).WithOne(x => x.Owner).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<User>().HasMany(x => x.Orders).WithOne(x => x.Buyer).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Role>().HasData(SeedRoles());
+            modelBuilder.Entity<User>().HasData(SeedAdminUser());
+            modelBuilder.Entity<Credential>().HasData(SeedAdminCredential());
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
@@ -46,6 +48,32 @@ namespace Marketplace.DAL.DataBaseContext
             List<Role> roles = new List<Role>() { seller, buyer, admin };
 
             return roles;
+        }
+
+        private User SeedAdminUser() 
+        {
+            User admin = new User()
+            {
+                Id = 1,
+                Username = "admin",
+                Password = "admin",
+                RoleId = 3
+            };
+
+            return admin;
+        }
+
+        private Credential SeedAdminCredential() 
+        {
+            Credential credential = new Credential()
+            {
+                Id = 1,
+                Username = "admin",
+                Salt = ":??U???Rm??-G??=????D?e#?&?",
+                Password = "16e1f1b7d9edb5624266093b91f15034344f80f60bf95d8ab25930598184a171"
+            };
+
+            return credential;
         }
     }
 }
