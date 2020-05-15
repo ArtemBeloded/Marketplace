@@ -30,7 +30,7 @@ namespace Marketplace.DAL.Repositories
         public IPagedList<User> GetUsers(int page, int itemsPerPage)
         {
             var users = _marketplaceContext.Users.AsQueryable();
-            users = users.Where(x => x.Role.Name == "Seller" | x.Role.Name == "Buyer");
+            users = users.Include(u => u.Role).Where(x => x.Role.Name == "Seller" | x.Role.Name == "Buyer");
             return users.ToList().ToPagedList(page, itemsPerPage);
         }
 
