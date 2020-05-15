@@ -1,18 +1,14 @@
-﻿using Marketplace.DAL.Models;
-using Marketplace.DAL.Repositories;
-using System;
+﻿using Marketplace.BLL.Repositories;
+using Marketplace.DAL.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marketplace.BLL.Services
 {
     public class CartService : ICartService
     {
-        private ICartRepositiry _cartRepositiry;
+        private ICartRepository _cartRepositiry;
 
-        public CartService(ICartRepositiry cartRepositiry)
+        public CartService(ICartRepository cartRepositiry)
         {
             _cartRepositiry = cartRepositiry;
         }
@@ -22,9 +18,9 @@ namespace Marketplace.BLL.Services
             _cartRepositiry.AddItem(product, quantity);
         }
 
-        public void RemoveItem(Product product) 
+        public void RemoveItem(int id) 
         {
-            _cartRepositiry.RemoveItem(product);
+            _cartRepositiry.RemoveItem(id);
         }
 
         public double CountTotalValue() 

@@ -1,18 +1,21 @@
 ﻿using Marketplace.DAL.Models;
-using System;
+using PagedList;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marketplace.DAL.Repositories
 {
     public interface IProductRepository
     {
-        IEnumerable<Product> GetProducts();
-        Product GetProduct(Guid id);
+        IPagedList<Product> GetProducts(int page, int itemsPerPage, string searchText);
+
+        IEnumerable<Product> GetProducts(int userId);
+
+        Product GetProduct(int id);
+
         bool AddProduct(Product product);
-        bool RemoveProduct(Guid id);
+
+        bool RemoveProduct(int id);
+
         bool UpdateProduct(Product product);
     }
 }

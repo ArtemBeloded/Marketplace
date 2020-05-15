@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Marketplace.DAL.Models;
 using System;
-using System.Web;
 
 namespace Marketplace.Infrastructure.Infrastructure
 {

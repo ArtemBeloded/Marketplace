@@ -6,6 +6,7 @@ using Autofac.Integration.Mvc;
 using AutoMapper;
 using Autofac;
 using Marketplace.Helpers;
+using System.Configuration;
 
 namespace Marketplace
 {
@@ -24,8 +25,8 @@ namespace Marketplace
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
         }
     }
