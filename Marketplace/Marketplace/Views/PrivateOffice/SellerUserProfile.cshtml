@@ -1,0 +1,198 @@
+﻿@model Marketplace.Models.SellerUserProfileVM
+@using Newtonsoft.Json
+
+<style>
+
+    .profile {
+        margin-top: 20px;
+        display: flex;
+        margin-left: 50px;
+    }
+
+        .profile .form-group {
+            margin-left: 10px;
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .profile table, h1 {
+            margin-top: 20px;
+            margin-left: 18px;
+            margin-right: 70px;
+        }
+
+        .profile label {
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+
+        .profile .form-control:disabled, .form-control[readonly] {
+            background-color: #e9ecef;
+            background: unset;
+            border: none;
+            padding-bottom: 10px;
+            margin-top: -6px;
+            color: #212529;
+        }
+
+        .profile form {
+            margin-left: 10px;
+            display: flex;
+        }
+
+        .profile thead th {
+            border: 1px solid #212529;
+        }
+
+        .profile tbody td {
+            border: 1px solid #212529;
+        }
+
+        .profile .table-bordered {
+            text-align: center;
+            border: 1px solid #212529;
+        }
+
+        .profile img {
+            width: auto;
+        }
+
+        .profile .btn-info {
+        }
+
+        .profile .btn-info {
+            height: 40px;
+            margin-top: 7px;
+            border-radius: 50px;
+            background: transparent;
+            padding: 0px 50px;
+            border: 2px solid #1f222e;
+            color: #1f222e;
+            text-transform: uppercase;
+            font-size: 11px;
+            transition-property: background, color;
+            transition-duration: .2s;
+            display: inline-block;
+            width: auto;
+            cursor: pointer;
+        }
+
+            .profile .btn-info:hover {
+                background: #1f222e;
+                color: #ffffff;
+            }
+</style>
+
+<div class="profile">
+    <div id="seller-profile" class="row">
+        <form>
+            <div class="form-group">
+                <label for="Username">Username: </label>
+                <input type="text" disabled class="form-control" id="Username" name="Username" v-bind:value="list.User.Username">
+            </div>
+            <div class="form-group">
+                <label for="NameSurname">Name: </label>
+                <input type="text" disabled class="form-control" id="NameSurname" name="NameSurname" v-bind:value="fullname">
+            </div>
+            <div class="form-group">
+                <label for="Birthday">Birthday: </label>
+                <input type="text" disabled class="form-control" id="Birthday" name="Birthday" v-bind:value="list.User.Birthday| toDate()">
+            </div>
+            <div class="form-group">
+                <label for="Email">Email: </label>
+                <input type="text" disabled class="form-control" id="Email" name="Email" v-bind:value="list.User.Email">
+            </div>
+        </form>
+
+        <div class="col-md-2 col-sm-offset-10">
+            <input class="btn btn-info" type="submit" value="Add new Product" v-on:click="AddBook()" />
+        </div>
+        <table class="table  table-bordered ">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Autor</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,i) in list.Products">
+                    <td>
+                        <img width="100" height="100" v-bind:src="`data:image/png;base64,${item.Photo}`" />
+                    </td>
+                    <td>{{item.Name}}</td>
+                    <td>{{item.Author}}</td>
+                    <td>{{item.Category.toString()}}</td>
+                    <td>{{item.Price}}</td>
+                    <td>{{item.Quantity}}</td>
+                    <td>
+                        <input class="btn btn-info" type="submit" value="Edit" v-on:click="goToEdit(item.Id)" />
+                    </td>
+                    <td>
+                        <input class="btn btn-info" type="submit" value="Delete" v-on:click="deleteUser(item, i)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/lib/vue/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#seller-profile",
+            data: {
+                list: @Html.Raw(@JsonConvert.SerializeObject(Model))
+            },
+            computed: {
+                fullname() {
+                    return this.list.User.Name + ' ' + this.list.User.Surname;
+                }
+            },
+            methods: {
+                deleteUser(item, index) {
+                    var isConfirmed = confirm(`Confirm delete product ${item.Name}?`);
+                    if (isConfirmed) {
+                        fetch(`/Product/DeleteProduct/${item.Id}`, { method: 'POST' })
+                            .then((response) => {
+                                this.list.Products.splice(index, 1);
+                            });
+                    }
+                },
+                goToEdit(id) {
+                    window.location.href = `/Product/EditProduct/${id}`;
+                },
+                AddBook() {
+                    window.location.href = `/Product/AddBook`;
+                }
+            },
+            filters: {
+                toDate(value, format = "date") {
+                    const options = {};
+
+                    if (format.includes("date")) {
+                        options.year = "numeric";
+                        options.month = "numeric";
+                        options.day = "2-digit";
+                    }
+
+                    if (format.includes("time")) {
+                        options.hour = "2-digit";
+                        options.minute = "2-digit";
+                        options.second = "2-digit";
+                    }
+
+                    return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
+                }
+            }
+        });
+    </script>
+}

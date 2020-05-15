@@ -1,0 +1,149 @@
+﻿@model IEnumerable<Marketplace.Models.CartLineVM>
+@using Newtonsoft.Json
+
+<style>
+
+    .container {
+        padding: 2rem 0rem;
+    }
+
+    .table {
+        text-align: center;
+        color: #afb1be;
+    }
+
+    .table-image {
+        thead
+
+    {
+        td, th
+
+    {
+        border: 0;
+        color: #afb1be;
+        font-size: 0.8rem;
+    }
+
+    }
+
+    td, th {
+        vertical-align: middle;
+        text-align: center;
+        &.qty
+
+    {
+        max-width: 2rem;
+    }
+
+    }
+    }
+
+    .price {
+        margin-left: 1rem;
+    }
+
+    .modal-footer {
+        padding-top: 0rem;
+    }
+
+    .modal-header {
+        margin: auto;
+        font-size: 14px;
+    }
+
+    .table thead th {
+        border-bottom: 1px solid #DC6180;
+    }
+
+    .table th {
+        border-top: 1px solid #DC6180;
+    }
+</style>
+
+<div class="cart-wrapper">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content" id="cart-list">
+            <div class="modal-header border-bottom-0">
+                <h4 class="modal-title" id="exampleModalLabel">
+                    Cart
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-image">
+                    <thead>
+                        <tr>
+                            <th scope="col"> </th>
+                            <th scope="col"> Name, Author</th>
+                            <th scope="col"> Price</th>
+                            <th scope="col"> Quantity</th>
+                            <th scope="col"> Sum</th>
+                            <th scope="col"> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(item, i) in list">
+                        <tr>
+                            <td class="w-25">
+                                <img width="100" height="100" v-bind:src="`data:image/png;base64,${item.Product.Photo}`">
+                            </td>
+                            <td> {{item.Product.Name}},{{item.Product.Author}}</td>
+                            <td>{{item.Product.Price}}</td>
+                            <td>{{item.Quantity}}</td>
+                            <td>{{item.Product.Price * item.Quantity | toCurrency}}</td>
+                            <td>
+                                <input class="btn btn-info" type="submit" v-on:click="deleteProduct(item, i)" value="Remove" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-end">
+                    <h5>Total price: <span class="price text-success">{{calcTotal | toCurrency}}</span></h5>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 d-flex justify-content-between">
+                @Html.ActionLink("Продолжить покупки", "ListOfProduct", "Product", null, new { @class = "btn btn-info" })
+                @Html.ActionLink("Оформить заказ", "Purchase", "Cart", null, new { @class = "btn btn-info" })
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/vue/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#cart-list",
+            data: {
+                list: @Html.Raw(@JsonConvert.SerializeObject(Model)),
+            },
+            filters: {
+                toCurrency(value) {
+                    return value + " грн.";
+                }
+            },
+            methods: {
+                deleteProduct(product, index) {
+                    fetch(`/Cart/RemoveItem`, {
+                        method: 'POST',
+                        body: JSON.stringify(product.Id),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => {
+                        this.list.splice(index, 1);
+                    })
+                },
+
+            },
+            computed: {
+                calcTotal() {
+                    let total = 0;
+                    this.list.forEach(element => total += (element.Product.Price * element.Quantity));
+                    console.log(total);
+                    return total;
+                }
+            }
+        });
+    </script>
+}
+

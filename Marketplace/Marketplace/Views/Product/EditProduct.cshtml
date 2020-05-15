@@ -1,54 +1,148 @@
 ﻿@model Marketplace.Models.UpdateProductVM
 
-<p>asd</p>
-<p>asd</p>
-<p>asd</p>
-<p>asd</p>
-<p>asd</p>
-<p>asd</p>
-<p>asd</p>
+<style>
+    .add-form-wrapper .container {
+        margin-top: 20px;
+        text-align: -webkit-center;
+        width: fit-content;
+        margin-top: 20px;
+    }
+
+    .add-form-wrapper {
+        width: max-content;
+        padding: 1px;
+        background: linear-gradient(45deg, #35394a 0%, #1f222e 100%);
+        color: #afb1be;
+        border-radius: 25px;
+        font-family: 'Gudea', sans-serif;
+        margin-bottom: 10px;
+        margin-top: 20px;
+    }
+
+    .layout-wrapper .body-content {
+        text-align: -webkit-center;
+    }
+
+    .add-form-wrapper .form-group.button {
+        border-radius: 50px;
+        background: transparent;
+        padding: 0px 50px;
+        border: 2px solid #DC6180;
+        color: #DC6180;
+        text-transform: uppercase;
+        font-size: 11px;
+        transition-property: background, color;
+        transition-duration: .2s;
+        display: inline-block;
+        width: auto;
+        cursor: pointer;
+        height: 30px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+        .add-form-wrapper .form-group.button input {
+            width: 70px;
+            margin: 2px;
+            border: none;
+            color: #DC6180;
+            font-size: 14px;
+            background: unset;
+        }
+
+        .add-form-wrapper .form-group.button:hover {
+            background: #DC6180;
+            color: #ffffff;
+        }
+
+            .add-form-wrapper .form-group.button:hover input {
+                color: #ffffff;
+            }
+
+    .add-form-wrapper label {
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .add-form-wrapper input, select, textarea {
+        max-width: 480px;
+    }
+
+    .add-form-wrapper .editor-field {
+        display: table-cell;
+        margin-left: 81px;
+    }
+
+    .add-form-wrapper img {
+        width: auto;
+    }
+</style>
+
 @using (Html.BeginForm("UpdateProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-<form>
-    <div class="form-group" style="display: none;">
-        <input type="text" class="form-control" id="inputId" name="Id" value="@Model.Id">
-    </div>
-    <div class="form-group">
-        <label for="inputname">Enter book name</label>
-        <input type="text" class="form-control" id="inputname" name="Name" value="@Model.Name">
-    </div>
-    <div class="form-group">
-        <label for="inputauthor">Enter Author</label>
-        <input type="text" class="form-control" id="inputauthor" name="Author" value="@Model.Author">
-    </div>
-    <div class="form-group">
-        <label for="inputcategoryid">Choose category</label>
-        <input type="text" class="form-control" id="inputcategoryid" name="CategoryId" value="@Model.CategoryId">
-    </div>
-    <div class="form-group">
-        <label for="inputprice">Input price per one book</label>
-        <input type="text" class="form-control" id="inputprice" name="Price" value="@Model.Price">
-    </div>
-    <div class="form-group">
-        <label for="inputdescription">Enter description</label>
-        <textarea id="inputdescription" class="form-control" name="Description" rows="4" cols="50">@Model.Description</textarea>
-    </div>
-    <div class="form-group">
-        <label for="inputquantity">Input quantity of book</label>
-        <input type="text" class="form-control" id="inputquantity" name="Quantity" value="@Model.Quantity">
-    </div>
-    <div class="editor-field">
-        <label for="inputphoto">Choose photo</label>
-        <input onchange=file_changed() type="file" name="PhotoFile" id="inputphoto" accept=".jpg, .jpeg, .png"  value=""/>
-        <br>
-        <img id="img" src="data:image/png;base64,@Model.Photo">
-    </div>
+    <form>
+        <div class="add-form-wrapper">
+            <div class="container">
+                <div class="form-group" style="display: none;">
+                    <input type="text" class="form-control" id="inputId" name="Id" value="@Model.Id">
+                </div>
 
-    <input type="hidden" name="Photo" value="@Model.Photo"/>
-    <div class="form-group">
-        <input onclick="filedata()" type="submit" value="Submit" />
-    </div>
-</form>
+                <div class="form-group" style="display: none;">
+                    <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputname">Name</label>
+                    <input type="text" class="form-control" id="inputname" name="Name" value="@Model.Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputauthor">Author</label>
+                    <input type="text" class="form-control" id="inputauthor" name="Author" value="@Model.Author"
+                           pattern="^[a-zA-Zа-яА-Я\s]+$">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputcategoryid">Category</label>
+                    @Html.EnumDropDownListFor(Model => Model.Category, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label for="inputprice">Price</label>
+                    <input type="number" class="form-control" id="inputprice" name="Price" value="@Model.Price">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputdescription">Description</label>
+                    <textarea id="inputdescription" class="form-control" name="Description" rows="4" cols="50">
+                        @Model.Description
+                    </textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputquantity">Quantity</label>
+                    <input type="number" class="form-control" id="inputquantity" name="Quantity" value="@Model.Quantity"
+                           pattern="^[0-9]+$">
+                </div>
+
+                <div class="editor-field">
+                    <div class="form-group button">
+                        <label for="inputphoto">Photo</label>
+                        <input onchange=file_changed() type="file" name="PhotoFile" id="inputphoto" accept=".jpg, .jpeg, .png" value="" />
+                        <br>
+                    </div>
+                    <img id="img" width="100" height="100" src="data:image/png;base64,@Model.Photo">
+                </div>
+
+                <input type="hidden" name="Photo" value="@Model.Photo" />
+
+                <div class="form-group button">
+                    <input onclick="filedata()" type="submit" value="EDIT" />
+                </div>
+
+            </div>
+        </div>
+    </form>
 }
 
 @section scripts{
@@ -56,7 +150,6 @@
         function file_changed() {
             var selectedFile = document.getElementById('inputphoto').files[0];
             var img = document.getElementById('img')
-            
 
             var reader = new FileReader();
             reader.onload = function () {

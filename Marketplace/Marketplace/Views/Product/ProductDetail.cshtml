@@ -1,0 +1,284 @@
+﻿@model Marketplace.Models.ShowProductVM
+@using Newtonsoft.Json
+@using Marketplace.Helpers;
+
+<style>
+
+    body {
+        font-family: 'open sans';
+        overflow-x: hidden;
+    }
+
+    img {
+        width: auto;
+        /*max-width: 100%;*/
+    }
+
+    .preview {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .preview-pic {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+    }
+
+    .preview-thumbnail.nav-tabs {
+        border: none;
+        margin-top: 15px;
+    }
+
+        .preview-thumbnail.nav-tabs li {
+            width: 18%;
+            margin-right: 2.5%;
+        }
+
+            .preview-thumbnail.nav-tabs li img {
+                max-width: 100%;
+                display: block;
+            }
+
+            .preview-thumbnail.nav-tabs li a {
+                padding: 0;
+                margin: 0;
+            }
+
+            .preview-thumbnail.nav-tabs li:last-of-type {
+                margin-right: 0;
+            }
+
+    .tab-content {
+        overflow: hidden;
+    }
+
+        .tab-content img {
+            -webkit-animation-name: opacity;
+            animation-name: opacity;
+            -webkit-animation-duration: .3s;
+            animation-duration: .3s;
+        }
+
+    .card {
+        margin-top: 50px;
+        background: #eee;
+        padding: 3em;
+        line-height: 1.5em;
+    }
+
+
+    .details {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .colors {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+    }
+
+    .product-title, .price, .sizes, .colors {
+        text-transform: UPPERCASE;
+        font-weight: bold;
+    }
+
+        .checked, .price span {
+            color: #ff9f1a;
+        }
+
+    .product-title, .rating, .product-description, .price, .vote, .sizes {
+        margin-bottom: 15px;
+    }
+
+    .product-title {
+        margin-top: 0;
+    }
+
+    .size {
+        margin-right: 10px;
+    }
+
+        .size:first-of-type {
+            margin-left: 40px;
+        }
+
+    .color {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        height: 2em;
+        width: 2em;
+        border-radius: 2px;
+    }
+
+        .color:first-of-type {
+            margin-left: 20px;
+        }
+
+    .add-to-cart, .like {
+        background: #ff9f1a;
+        padding: 1.2em 1.5em;
+        border: none;
+        text-transform: UPPERCASE;
+        font-weight: bold;
+        color: #fff;
+        -webkit-transition: background .3s ease;
+        transition: background .3s ease;
+    }
+
+        .add-to-cart:hover, .like:hover {
+            background: #b36800;
+            color: #fff;
+        }
+
+    .not-available {
+        text-align: center;
+        line-height: 2em;
+    }
+
+        .not-available:before {
+            font-family: fontawesome;
+            content: "\f00d";
+            color: #fff;
+        }
+
+    .orange {
+        background: #ff9f1a;
+    }
+
+    .green {
+        background: #85ad00;
+    }
+
+    .blue {
+        background: #0076ad;
+    }
+
+    .tooltip-inner {
+        padding: 1.3em;
+    }
+
+    .product-detail-wrapper .card {
+        border: 3px solid #1f222e;
+        border-radius: 50px;
+        color: #DC6180;
+        background: #1f222e;
+    }
+
+        .product-detail-wrapper .card img {
+            border: 3px solid #1f222e;
+            border-radius: 50px;
+        }
+
+        .product-detail-wrapper .card .details {
+            justify-content: center;
+            align-items: center;
+            font-size: 27px;
+        }
+
+        .product-detail-wrapper .card h3 {
+            font-size: larger;
+        }
+
+        .product-detail-wrapper .card a {
+            margin-right: 10px;
+        }
+
+    .product-detail-wrapper .btn-info {
+        height: 40px;
+        margin-top: 7px;
+        border-radius: 50px;
+        background: transparent;
+        padding: 0px 50px;
+        border: 2px solid #1f222e;
+        color: #1f222e;
+        text-transform: uppercase;
+        font-size: 11px;
+        transition-property: background, color;
+        transition-duration: .2s;
+        display: inline-block;
+        width: auto;
+        cursor: pointer;
+    }
+
+        .product-detail-wrapper .btn-info:hover {
+            background: #1f222e;
+            color: #ffffff;
+        }
+</style>
+
+<div class="product-detail-wrapper">
+    <div class="container">
+        <div class="card" id="product-detail">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-6">
+                        <div class="preview-pic tab-content">
+                            <div class="tab-pane active" id="pic-1"><img width="250" height="250" v-bind:src="`data:image/png;base64,${product.Photo}`" /></div>
+                        </div>
+
+                    </div>
+                    <div class="details col-md-6">
+                        <h3 class="product-title">{{product.Name}}</h3>
+
+                        <div class="row">
+                            <p class="vote">Price: <strong>{{product.Price}}грн.</strong></p>
+                        </div>
+                        <div class="row">
+                            <p class="vote">Author: <strong>{{product.Author}}</strong> <a></a> Category: <strong>{{product.Category.toString()}}</strong></p>
+                        </div>
+                        <p class="product-title">Description:</p>
+                        <p class="product-description">{{product.LongDescription}}</p>
+                        @if (User.Identity.GetUserRole() == "Buyer")
+                        {
+                            <div class="action">
+                                <button class="add-to-cart btn btn-default btn-info" @@click="addToCart(product)" type="button">Add to cart</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/vue/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#product-detail",
+            data: {
+                product: @Html.Raw(@JsonConvert.SerializeObject(Model))
+            },
+            methods: {
+                addToCart(product) {
+                    fetch(`/Cart/AddItem`, {
+                        method: 'POST',
+                        body: JSON.stringify(product),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                }
+            }
+        });
+    </script>
+}

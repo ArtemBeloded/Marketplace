@@ -1,106 +1,181 @@
-﻿@model IEnumerable<Marketplace.Models.ShowProductVM>
+﻿@model PagedList.IPagedList<Marketplace.DAL.Models.Product>
 @using Newtonsoft.Json
+@using PagedList.Mvc
+@using Marketplace.Controllers
+@using Marketplace.Helpers;
 
 <style>
 
-	.sidenav {
-		height: 100%;
-		width: 160px;
-		position: fixed;
-		z-index: 1;
-		top: 0;
-		left: 0;
-		background-color: #111;
-		overflow-x: hidden;
-		padding-top: 120px;
-	}
 
-		.sidenav a {
-			padding: 6px 8px 6px 16px;
-			text-decoration: none;
-			font-size: 25px;
-			color: #818181;
-			display: block;
-		}
+    @@import url('../../Content/PagedList.css');
 
-			.sidenav a:hover {
-				color: #f1f1f1;
-			}
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 120px;
+    }
 
-	.sidenav {
-		font-size: 28px; /* Increased text to enable scrolling */
-	}
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+        }
+
+            .sidenav a:hover {
+                color: #f1f1f1;
+            }
+
+    .sidenav {
+        font-size: 28px; /* Increased text to enable scrolling */
+    }
+
+    .card {
+        cursor: pointer;
+    }
+
+    .card-body {
+        min-height: 100px;
+    }
+
+    .list {
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+
+        .list .btn-info {
+            height: 40px;
+            border-radius: 50px;
+            background: transparent;
+            padding: 0px 50px;
+            border: 2px solid #1f222e;
+            color: #1f222e;
+            text-transform: uppercase;
+            font-size: 11px;
+            transition-property: background, color;
+            transition-duration: .2s;
+            display: inline-block;
+            width: 250px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+            .list .btn-info:hover {
+                background: #1f222e;
+                color: #ffffff;
+            }
+
+        .list .card {
+            width:;
+            border: 4px solid #1f222e;
+            border-radius: 25px;
+            overflow: overlay;
+            color: #DC6180;
+            background: #1f222e;
+            margin-bottom: 15px;
+        }
+
+            .list .card img {
+                object-fit: cover;
+                border-bottom: 4px solid #1f222e;
+            }
+
+        .list .row-cols-1 {
+            margin-left: 100px;
+        }
+
+
+        .list .card .btn-info {
+            border-radius: 50px;
+            background: transparent;
+            padding: 0px 50px;
+            border: 2px solid #DC6180;
+            color: #DC6180;
+            text-transform: uppercase;
+            font-size: 11px;
+            transition-property: background, color;
+            transition-duration: .2s;
+            display: inline-block;
+            width: auto;
+            cursor: pointer;
+            height: 30px;
+            margin-bottom: 1px;
+            margin-top: 20px;
+        }
+
+            .list .card .btn-info:hover {
+                background: #DC6180;
+                color: #ffffff;
+            }
 </style>
-<div id="product-list">
-	<div class="sidenav" id="sidenav">
-		<p>Сортировка/группировка</p>
-		<p>Жанр</p>
-		<div>
-			@Html.ActionLink("Ужастик", "AddProduct", "Product", new { @class = "btn btn-success" })
-		</div>
-		<div>
-			@Html.ActionLink("Детектив", "AddProduct", "Product", new { @class = "btn btn-success" })
-		</div>
-		<div>
-			@Html.ActionLink("Мелодрамы", "AddProduct", "Product", new { @class = "btn btn-success" })
-		</div>
-		<div>
-			<button class="btn btn-info" v-on:click="sortByAlphabet()">В алфавитном порядке</button>
-		</div>
-		<div>
-			<button class="btn btn-info" v-on:click="sortByPriceAsc()">По возрастанию цены</button>
-		</div>
-		<div>
-			<button class="btn btn-info" v-on:click="sortByPriceDes()">По убыванию цены</button>
-		</div>
-	</div>
 
+<div class="list">
+    <div id="product-list" class="row">
+        <div class="row-cols-1">
+            <div>
+                <button class="btn btn-info" v-on:click="sortByAlphabet()">В алфавитном порядке</button>
+            </div>
+            <div>
+                <button class="btn btn-info" v-on:click="sortByPriceAsc()">По возрастанию цены</button>
+            </div>
+            <div>
+                <button class="btn btn-info" v-on:click="sortByPriceDes()">По убыванию цены</button>
+            </div>
+        </div>
 
-	<p>asd</p>
-	<p>asd</p>
-	<p>asd</p>
-	<p>asd</p>
-	<p>asd</p>
-	<p>asd</p>
-	<p>asd</p>
-	<div class="main">
-		<div>
-			<div class="row">
-				<div class="container row">
-					<div v-for="(item) in list" class="col-sm-3">
-						<div class="card col-xs-4" style="width:220px;">
-							<img class="card-img-top" v-bind:src="`data:image/png;base64,${item.Photo}`" />
-							<div class="card-body">
-								<h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
-								<p class="card-text">{{item.ShortDescription}}</p>
-								<p>
-									<input class="btn btn-info" type="submit" v-on:click="addToCart(item)" value="Add to Cart" />
-									<input class="btn btn-info" type="submit" v-on:click="addToCart(item)" value="Add to Compare" />
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="main col-8" style="margin: auto">
+            <div>
+                <div class="row ">
+                    <div class="container row myrow">
+                        <div v-for="(item) in list" class="col-sm-3">
+                            <div class="card col-xs-4" style="width:220px;" @@click.stop="goToDetail(item.Id)">
+                                <img class="card-img-top" width="220" height="250" v-bind:src="`data:image/png;base64,${item.Photo}`" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{item.Name}}, {{item.Price}}грн.</h5>
+                                    @if (User.Identity.GetUserRole() == "Buyer")
+                                    {
+                                        <p>
+                                            <input class="btn btn-info" type="submit" v-on:click.stop="addToCart(item)" value="Add to Cart" />
+                                        </p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="btn-group page">
+                @Html.PagedListPager(Model, page => Url.Action(nameof(ProductController.ListOfProduct), new { page, currentSearch = ViewBag.SearchText }))
+            </div>
+        </div>
+    </div>
 </div>
+
 @section scripts{
-	<script src="~/lib/vue/vue.js"></script>
-	<script>
+    <script src="~/lib/vue/vue.js"></script>
+    <script>
         var app = new Vue({
             el: "#product-list",
             data: {
                 list: @Html.Raw(@JsonConvert.SerializeObject(Model))
             },
             methods: {
-				addToCart(product) {
+                addToCart(product) {
                     fetch(`/Cart/AddItem`, {
-						method: 'POST',
-						body: JSON.stringify(product),
-						headers: {
+                        method: 'POST',
+                        body: JSON.stringify(product),
+                        headers: {
                             'Content-Type': 'application/json'
-                        } })
+                        }
+                    })
                         .then((response) => {
                             console.log(response);
                         });
@@ -137,8 +212,11 @@
                         }
                         return 0;
                     });
+                },
+                goToDetail(id) {
+                    window.location.href = `/Product/ProductDetail/${id}`;
                 }
             }
         });
-	</script>
+    </script>
 }
