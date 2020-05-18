@@ -8,6 +8,7 @@ namespace Marketplace.DAL.Repositories
     public class OrderRepository : IOrderRepository
     {
         private MarketplaceContext _marketplaceContext;
+
         public OrderRepository(MarketplaceContext marketplaceContext)
         {
             _marketplaceContext = marketplaceContext;
@@ -23,6 +24,7 @@ namespace Marketplace.DAL.Repositories
         {
             var orders = _marketplaceContext.Orders.AsQueryable();
             orders = _marketplaceContext.Orders.Where(x => x.UserId == userId);
+
             return orders.ToList();
         }
 

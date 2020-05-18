@@ -9,12 +9,10 @@ namespace Marketplace.Controllers
 {
     public class CartController : Controller
     {
-        private ICartService _cartService;
-        private IUserService _userService;
-        private IOrderService _orderService;
+        private readonly ICartService _cartService;
+        private readonly IUserService _userService;
+        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
-
-
 
         public CartController(ICartService cartService, IMapper mapper, IUserService userService, IOrderService orderService)
         {
@@ -27,6 +25,7 @@ namespace Marketplace.Controllers
         public ActionResult CartShow()
         {
             var cart = _mapper.Map<IEnumerable<CartLineVM>>(_cartService.GetCart());
+            
             return View(cart);
         }
 
@@ -35,12 +34,14 @@ namespace Marketplace.Controllers
         {
             var product = _mapper.Map<Product>(viewModel);
             _cartService.AddItem(product, 1);
+            
             return RedirectToAction("ListOfProduct", "Product");
         }
 
         public ActionResult RemoveItem(int id) 
         {
             _cartService.RemoveItem(id);
+            
             return RedirectToAction("CartShow", "Cart");
         }
 
@@ -49,6 +50,7 @@ namespace Marketplace.Controllers
             var orders = CreateListOfOrders();
             _orderService.AddOrder(orders);
             _cartService.Clear();
+            
             return RedirectToAction("ListOfProduct", "Product");
         }
 
@@ -67,9 +69,8 @@ namespace Marketplace.Controllers
                 };
                 orders.Add(order);
             }
+            
             return orders;
         }
-
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Marketplace.BLL.Services;
 using Marketplace.DAL.Models;
-using Marketplace.Helpers;
 using Marketplace.Models;
 using System;
 using System.Web;
@@ -22,17 +21,15 @@ namespace Marketplace.Controllers
             _userService = userService;
         }
 
-
-        // GET: Product
         public ActionResult ListOfProduct(string currentSearch, int page = 1, int count = 10, string searchText = null)
         {
-            var t = User.Identity.GetUserRole();
             if (searchText == null) 
             {
                 searchText = currentSearch;
             }
             ViewBag.SearchText = searchText;
             var products = _productService.GetProducts(page, count, searchText);
+
             return View(products);
         }
 
@@ -48,12 +45,14 @@ namespace Marketplace.Controllers
             var currentUser = _userService.GetUser(HttpContext.User.Identity.Name);
             product.UserId = currentUser.Id;
             _productService.AddProduct(product);
+
             return RedirectToAction("UserProfile", "PrivateOffice");
         }
 
         public ActionResult EditProduct(int id)
         {
             var product = _mapper.Map<UpdateProductVM>(_productService.GetProduct(id));
+            
             return View(product);
         }
 
@@ -69,12 +68,14 @@ namespace Marketplace.Controllers
             }
             var product = _mapper.Map<Product>(updateProduct);
             _productService.UpdateProduct(product);
+            
             return RedirectToAction("UserProfile", "PrivateOffice");
         }
 
         public ActionResult ProductDetail(int id) 
         {
             var product = _mapper.Map<ShowProductVM>(_productService.GetProduct(id));
+           
             return View(product);
         }
 
@@ -82,6 +83,7 @@ namespace Marketplace.Controllers
         public ActionResult DeleteProduct(int id)
         {
             _productService.RemoveProduct(id);
+            
             return RedirectToAction("ListOfProduct");
         }
     }

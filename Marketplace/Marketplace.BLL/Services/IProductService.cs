@@ -12,10 +12,10 @@ namespace Marketplace.BLL.Services
 
         Product GetProduct(int id);
 
-        bool AddProduct(Product product);
+        void AddProduct(Product product);
 
-        bool RemoveProduct(int id);
+        void RemoveProduct(int id);
 
-        bool UpdateProduct(Product product);
+        void UpdateProduct(Product product);
     }
 }

@@ -9,7 +9,6 @@ using System.Security.Claims;
 using Microsoft.Owin.Security;
 using System.Web.Mvc;
 using System.Web;
-using Marketplace.DAL.DataBaseContext;
 
 namespace Marketplace.Controllers
 {
@@ -17,7 +16,6 @@ namespace Marketplace.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        private readonly MarketplaceContext _context;
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -27,11 +25,10 @@ namespace Marketplace.Controllers
             }
         }
 
-        public UserController(IUserService userService, IMapper mapper, MarketplaceContext context)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
-            _context = context;
         }
 
         public ActionResult Login() =>
@@ -56,6 +53,7 @@ namespace Marketplace.Controllers
                     claim.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username, ClaimValueTypes.String));
                     claim.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider",
                         "OWIN Provider", ClaimValueTypes.String));
+
                     if (user.Role != null)
                         claim.AddClaim(new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name, ClaimValueTypes.String));
 
@@ -67,13 +65,13 @@ namespace Marketplace.Controllers
                     return RedirectToAction("ListOfProduct", "Product");
                 }
             }
+
             return View(nameof(UserController.Login));
         }
 
         private bool PasswordIsCorrect(string username, string password)
         {
             var credentials = _userService.GetCredential(username);
-
             var value = Encode(password + credentials.Salt);
 
             return value == credentials.Password;
@@ -86,7 +84,6 @@ namespace Marketplace.Controllers
 
             using (var algorithm = new SHA256Managed())
                 foreach (var @byte in algorithm.ComputeHash(bytes))
-
                     hash.Append(@byte.ToString("x2"));
 
             return hash.ToString();
@@ -136,14 +133,17 @@ namespace Marketplace.Controllers
         public ActionResult Logoff()
         {
             AuthenticationManager.SignOut();
+
             return RedirectToAction("Login", "User");
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult RemoveUser(string id) 
         {
             _userService.RemoveUser(id);
+
             return RedirectToAction("ListOfUsers");
         }
-
     }
 }

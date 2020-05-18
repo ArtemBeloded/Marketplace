@@ -18,12 +18,14 @@ namespace Marketplace.DAL.Repositories
         public User GetUser(string username)
         {
             var user = _marketplaceContext.Users.Include(u => u.Role).FirstOrDefault(x => x.Username == username);
+            
             return user;
         }
 
         public Credential GetCredential(string username)
         {
             var credential = _marketplaceContext.Credentials.FirstOrDefault(x => x.Username == username);
+            
             return credential;
         }
 
@@ -31,6 +33,7 @@ namespace Marketplace.DAL.Repositories
         {
             var users = _marketplaceContext.Users.AsQueryable();
             users = users.Include(u => u.Role).Where(x => x.Role.Name == "Seller" | x.Role.Name == "Buyer");
+            
             return users.ToList().ToPagedList(page, itemsPerPage);
         }
 
@@ -39,6 +42,7 @@ namespace Marketplace.DAL.Repositories
 
             var user = _marketplaceContext.Users.FirstOrDefault(x => x.Username == username);
             _marketplaceContext.Users.Remove(user);
+           
             _marketplaceContext.SaveChanges();
         }
 
@@ -46,6 +50,7 @@ namespace Marketplace.DAL.Repositories
         {
             _marketplaceContext.Users.Add(user);
             _marketplaceContext.Credentials.Add(credential);
+           
             _marketplaceContext.SaveChanges();
         }
     }

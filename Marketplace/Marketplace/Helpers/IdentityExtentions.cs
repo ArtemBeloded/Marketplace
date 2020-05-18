@@ -22,6 +22,7 @@ namespace Marketplace.Helpers
                     return (T)Convert.ChangeType(id.Value, typeof(T), CultureInfo.InvariantCulture);
                 }
             }
+
             return default(T);
         }
         public static string GetUserRole(this IIdentity identity)
@@ -38,6 +39,7 @@ namespace Marketplace.Helpers
                 if (id != null)
                     role = id.Value;
             }
+
             return role;
         }
     }

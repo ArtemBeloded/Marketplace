@@ -8,14 +8,15 @@ namespace Marketplace.BLL.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+
         public ProductService(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public bool AddProduct(Product product)
+        public void AddProduct(Product product)
         {
-            return _productRepository.AddProduct(product);
+            _productRepository.AddProduct(product);
         }
 
         public Product GetProduct(int id)
@@ -33,14 +34,14 @@ namespace Marketplace.BLL.Services
             return _productRepository.GetProducts(userId);
         }
 
-        public bool RemoveProduct(int id)
+        public void RemoveProduct(int id)
         {
-            return _productRepository.RemoveProduct(id);
+            _productRepository.RemoveProduct(id);
         }
 
-        public bool UpdateProduct(Product product)
+        public void UpdateProduct(Product product)
         {
-            return _productRepository.UpdateProduct(product);
+            _productRepository.UpdateProduct(product);
         }
     }
 }

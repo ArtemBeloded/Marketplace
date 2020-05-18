@@ -9,6 +9,7 @@ namespace Marketplace.BLL.Repositories
     {
         private Cart _cart;
         private readonly HttpContextBase _httpContext;
+
         public CartRepository(HttpContextBase httpContext)
         {
             _httpContext = httpContext;

@@ -37,6 +37,7 @@ namespace Marketplace.Helpers
 
             };
         }
+
         private static string ConvertHttpPostedFileBaseToString(HttpPostedFileBase httpPostedFile)
         {
             byte[] imageArray = new byte[httpPostedFile.ContentLength];

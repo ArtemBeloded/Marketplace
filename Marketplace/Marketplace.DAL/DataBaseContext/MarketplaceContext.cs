@@ -12,6 +12,7 @@ namespace Marketplace.DAL.DataBaseContext
         public DbSet<Product> Products { get; set; }
 
         public DbSet<User> Users { get; set; }
+
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<Credential> Credentials { get; set; }

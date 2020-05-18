@@ -29,7 +29,6 @@ namespace Marketplace.Infrastructure.Infrastructure
             builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
             builder.RegisterType<OrderService>().As<IOrderService>();
-
             builder.RegisterType<IMapper>();
             
             return builder;

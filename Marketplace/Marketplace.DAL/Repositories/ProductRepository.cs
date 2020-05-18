@@ -23,6 +23,7 @@ namespace Marketplace.DAL.Repositories
                 products = products.Where(x => x.Name.ToLower().Contains(searchText.ToLower()) |
                                                     x.Author.ToLower().Contains(searchText.ToLower()));
             }
+
             return products.ToPagedList(page, itemsPerPage);
         }
 
@@ -30,32 +31,33 @@ namespace Marketplace.DAL.Repositories
         {
             var products = _marketplaceContext.Products.AsQueryable();
             products = products.Where(x => x.UserId == userId);
+
             return products.ToList();
         }
 
         public Product GetProduct(int id)
         {
-
             var product = _marketplaceContext.Products.FirstOrDefault(x => x.Id == id);
+            
             return product;
         }
 
-        public bool AddProduct(Product product)
+        public void AddProduct(Product product)
         {
             _marketplaceContext.Products.Add(product);
+
             _marketplaceContext.SaveChanges();
-            return true;
         }
 
-        public bool RemoveProduct(int id)
+        public void RemoveProduct(int id)
         {
             var product = _marketplaceContext.Products.FirstOrDefault(x => x.Id == id);
             _marketplaceContext.Products.Remove(product);
+
             _marketplaceContext.SaveChanges();
-            return true;
         }
 
-        public bool UpdateProduct(Product product)
+        public void UpdateProduct(Product product)
         {
             var item = _marketplaceContext.Products.Find(product.Id);
             item.Name = product.Name;
@@ -65,8 +67,8 @@ namespace Marketplace.DAL.Repositories
             item.Description = product.Description;
             item.Quantity = product.Quantity;
             item.Photo = product.Photo;
+
             _marketplaceContext.SaveChanges();
-            return true;
         }
     }
 }
