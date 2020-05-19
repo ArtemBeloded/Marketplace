@@ -24,6 +24,7 @@ namespace Marketplace.Infrastructure.Infrastructure
             builder.RegisterType<ProductService>().As<IProductService>();
             builder.RegisterType<CartRepository>().As<ICartRepository>();
             builder.RegisterType<CartService>().As<ICartService>();
+            builder.RegisterModule(new AutofacWebTypesModule());
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
