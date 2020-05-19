@@ -8,7 +8,7 @@ namespace Marketplace.Controllers
     {
         private readonly IUserService _userService;
 
-        public AdminController(IUserService userService, IMapper mapper)
+        public AdminController(IUserService userService)
         {
             _userService = userService;
         }
