@@ -330,7 +330,6 @@
     <Content Include="lib\font-awesome\webfonts\fa-solid-900.svg" />
     <Content Include="lib\Vue\vue.js" />
     <Content Include="lib\Vue\vue.min.js" />
-    <Content Include="Resources\CartIcon.png" />
     <Content Include="Resources\Logo.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
