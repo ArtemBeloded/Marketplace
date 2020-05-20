@@ -57,7 +57,6 @@ namespace Marketplace.DAL.DataBaseContext
             {
                 Id = 1,
                 Username = "admin",
-                Password = "admin",
                 RoleId = 3
             };
 

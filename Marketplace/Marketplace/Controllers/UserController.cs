@@ -42,7 +42,7 @@ namespace Marketplace.Controllers
             {
                 User user = _userService.GetUser(model.Username);
 
-                if (user == null || !PasswordIsCorrect(user.Username, user.Password))
+                if (user == null || !PasswordIsCorrect(model.Username, model.Password))
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
                 }

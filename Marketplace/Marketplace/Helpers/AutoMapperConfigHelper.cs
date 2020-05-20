@@ -17,11 +17,8 @@ namespace Marketplace.Helpers
                 .ForMember(x => x.Photo, config =>
                     config.MapFrom((dest) => ConvertHttpPostedFileBaseToString(dest.Photo)));
 
-                cfg.CreateMap<Product, ShowProductVM>()
-                .ForMember(t => t.LongDescription, config => config.MapFrom(dest => dest.Description))
-                .ForMember(t => t.ShortDescription, config => config.MapFrom(dest => dest.Description.Substring(0, 10)));
-                cfg.CreateMap<ShowProductVM, Product>()
-                .ForMember(t => t.Description, config => config.MapFrom(dest => dest.LongDescription));
+                cfg.CreateMap<Product, ShowProductVM>();
+                cfg.CreateMap<ShowProductVM, Product>();
 
                 cfg.CreateMap<Product, UpdateProductVM>();
                 cfg.CreateMap<UpdateProductVM, Product>();

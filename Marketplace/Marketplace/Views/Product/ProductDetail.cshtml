@@ -203,13 +203,11 @@
         }
 
     .product-detail-wrapper .btn-info {
-        height: 40px;
-        margin-top: 7px;
         border-radius: 50px;
         background: transparent;
         padding: 0px 50px;
-        border: 2px solid #1f222e;
-        color: #1f222e;
+        border: 2px solid #DC6180;
+        color: #DC6180;
         text-transform: uppercase;
         font-size: 11px;
         transition-property: background, color;
@@ -217,6 +215,9 @@
         display: inline-block;
         width: auto;
         cursor: pointer;
+        height: 30px;
+        margin-bottom: 1px;
+        margin-top: 20px;
     }
 
         .product-detail-wrapper .btn-info:hover {
@@ -246,11 +247,11 @@
                             <p class="vote">Author: <strong>{{product.Author}}</strong> <a></a> Category: <strong>{{product.Category.toString()}}</strong></p>
                         </div>
                         <p class="product-title">Description:</p>
-                        <p class="product-description">{{product.LongDescription}}</p>
+                        <p class="product-description">{{product.Description}}</p>
                         @if (User.Identity.GetUserRole() == "Buyer")
                         {
                             <div class="action">
-                                <button class="add-to-cart btn btn-default btn-info" @@click="addToCart(product)" type="button">Add to cart</button>
+                                <button class="add-to-cart btn btn-info" @@click="addToCart(product)" type="button">Add to cart</button>
                             </div>
                         }
                     </div>

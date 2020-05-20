@@ -90,7 +90,7 @@
                             <td>{{item.Quantity}}</td>
                             <td>{{item.Product.Price * item.Quantity | toCurrency}}</td>
                             <td>
-                                <input class="btn btn-info" type="submit" v-on:click="deleteProduct(item, i)" value="Remove" />
+                                <input class="btn btn-info" type="submit" v-on:click="deleteProduct(item.Product, i)" value="Remove" />
                             </td>
                         </tr>
                     </tbody>
@@ -122,13 +122,8 @@
             },
             methods: {
                 deleteProduct(product, index) {
-                    fetch(`/Cart/RemoveItem`, {
-                        method: 'POST',
-                        body: JSON.stringify(product.Id),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
+                    console.log(product.Id);
+                    fetch(`/Cart/RemoveItem/${product.Id}`, {method: 'POST'})
                     .then((response) => {
                         this.list.splice(index, 1);
                     })
@@ -139,7 +134,6 @@
                 calcTotal() {
                     let total = 0;
                     this.list.forEach(element => total += (element.Product.Price * element.Quantity));
-                    console.log(total);
                     return total;
                 }
             }
